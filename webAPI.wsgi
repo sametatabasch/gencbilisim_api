@@ -1,8 +1,8 @@
-#! /usr/bin/python3.8
+#! /usr/bin/python3.9
 
 import logging
 import sys
 
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0, '/home/sametatabasch/PycharmProjects/webAPI')
-from weAPI import app as application
+from webAPI import app as application
