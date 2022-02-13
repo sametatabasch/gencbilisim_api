@@ -61,6 +61,5 @@ def connect_sqlite3(db_file="webAPI.db"):
     return conn
 
 
-
 if __name__ == '__main__':
     app.run()

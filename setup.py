@@ -1,5 +1,5 @@
 from setuptools import setup
-from app import connect_sqlite3
+from weAPI import connect_sqlite3
 
 setup(
     name='webAPI',

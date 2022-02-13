@@ -1,6 +1,8 @@
-'''import sys
-sys.path.insert(0, '/home/sametatabasch/PycharmProjects/webAPI')
+#! /usr/bin/python3.8
 
-bu kısım bu dosyanın proje dışında kullanıldığı durumlarda aktif edilmeli.
-'''
-import app
+import logging
+import sys
+
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0, '/home/sametatabasch/PycharmProjects/webAPI')
+from weAPI import app as application
