@@ -1,6 +1,5 @@
 from flask import Flask
 from flask import request, jsonify
-from Data import data
 import sqlite3
 import os
 
@@ -16,10 +15,9 @@ def hello_world():  # put application's code here
 def role_status():
     db = connect_sqlite3()
     c = db.cursor()
+    relays = None
     try:
         relays = c.execute("SELECT * FROM relays;").fetchall()
-        print(data)
-        print(relays)
     except sqlite3.Error as e:
         print(e)
     return jsonify(relays)
