@@ -25,7 +25,29 @@ def role_status():
 
 @app.route('/changeRelayStatus')
 def change_relay_status():
-    return request.args
+    args = request.args
+    relays = [
+        {
+            'name': 'relay1',
+            'status': args['relay1'],
+        },
+        {
+            'name': 'relay2',
+            'status': args['relay2'],
+        }
+    ]
+    try:
+        db = connect_sqlite3()
+        c = db.cursor()
+        for relay in relays:
+            c.execute('''UPDATE relays SET status=? WHERE name=?''', (relay['status'], relay['name']))
+
+        db.commit()
+        return "Success!"
+    except Exception as e:
+        return e
+
+
 
 
 """
@@ -40,7 +62,7 @@ def dict_factory(cursor, row):
     return d
 
 
-def connect_sqlite3(db_file=os.path.dirname(__file__) + "webAPI.db"):
+def connect_sqlite3(db_file=os.path.dirname(__file__) + "/webAPI.db"):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
