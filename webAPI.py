@@ -77,7 +77,7 @@ def connect_sqlite3(db_file=os.path.dirname(__file__) + "/webAPI.db"):
             );
             """)
         c.execute("""
-                INSERT OR IGNORE INTO relays(status,name) VALUES('false', 'relay1'),('false', 'relay2');
+                INSERT OR IGNORE INTO relays(status,name) VALUES(0, 'relay1'),(0, 'relay2');
             """)
         conn.row_factory = dict_factory
         return conn
