@@ -15,6 +15,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
+            username TEXT NOT NULL UNIQUE,
             email TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             active INTEGER DEFAULT 1
@@ -41,9 +42,9 @@ def insert_initial_data():
 
     # Kullanıcı ekleme
     cursor.execute('''
-        INSERT OR IGNORE INTO users (name, email, password, active)
-        VALUES (?, ?, ?, ?)
-    ''', ('Samet ATABAŞ', 'sametatabasch@gmail.com', '123456', 1))
+        INSERT OR IGNORE INTO users (name, username, email, password, active)
+        VALUES (?, ?, ?, ?, ?)
+    ''', ('Samet ATABAŞ', 'sametatabasch', 'sametatabasch@gmail.com', 'P@swd123', 1))
 
     # Add Relays
     cursor.execute('''INSERT OR IGNORE INTO relays(status,name) VALUES(0, 'relay1'),(0, 'relay2');
