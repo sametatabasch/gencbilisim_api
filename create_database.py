@@ -46,16 +46,13 @@ def insert_initial_data():
     ''', ('Samet ATABAŞ', 'sametatabasch@gmail.com', '123456', 1))
 
     # Add Relays
-    relays = [
-        (0, 'relay1'),
-        (0, 'relay2')
-    ]
-    cursor.execute('''INSERT OR IGNORE INTO relays(status,name) VALUES(?,?);
-    ''', relays)
+    cursor.execute('''INSERT OR IGNORE INTO relays(status,name) VALUES(0, 'relay1'),(0, 'relay2');
+    ''')
 
     conn.commit()
     conn.close()
 
 
-create_tables()
-insert_initial_data()
+def main():
+    create_tables()
+    insert_initial_data()

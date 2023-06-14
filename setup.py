@@ -16,4 +16,9 @@ setup(
         'Werkzeug',
         'jwt'
     ],
+    entry_points={
+        'console_scripts': [
+            'create-api-database = create_database:main',
+        ],
+    },
 )
