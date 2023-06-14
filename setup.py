@@ -11,6 +11,9 @@ setup(
     description='',
     install_requires=[
         'Flask',
-        'flask-cors'
+        'flask-cors',
+        'python-dotenv',
+        'Werkzeug',
+        'jwt'
     ],
 )

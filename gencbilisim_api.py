@@ -3,7 +3,15 @@ from flask import request, jsonify
 import sqlite3
 import os
 from flask_cors import CORS
+from dotenv import load_dotenv
+
 app = Flask(__name__)
+
+load_dotenv()  # .env dosyasını yükle
+# .env dosyasındaki değişkenleri app.config'e ekle
+for key, value in os.environ.items():
+    app.config[key] = value
+
 CORS(app)
 
 @app.route('/')
@@ -48,37 +56,22 @@ def change_relay_status():
         return e
 
 
-
-
-"""
-    change factory for novel syntax of json api
-"""
-
-
 def dict_factory(cursor, row):
+    """
+        change factory for novel syntax of json api
+        database data return dict instead of tuple
+    """
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
 
 
-def connect_sqlite3(db_file=os.path.dirname(__file__) + "/webAPI.db"):
+def connect_sqlite3(db_file=app.config['DATABASE_PATH']):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
         c = conn.cursor()
-        c.execute("""
-            CREATE TABLE IF NOT EXISTS relays (
-                id integer PRIMARY KEY,
-                status text DEFAULT "false" NOT NULL,
-                name text,
-                description text,
-                UNIQUE(name)
-            );
-            """)
-        c.execute("""
-                INSERT OR IGNORE INTO relays(status,name) VALUES(0, 'relay1'),(0, 'relay2');
-            """)
         conn.row_factory = dict_factory
         return conn
     except sqlite3.Error as e:
