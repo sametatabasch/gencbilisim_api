@@ -14,7 +14,7 @@ setup(
         'flask-cors',
         'python-dotenv',
         'Werkzeug',
-        'jwt'
+        'flask_jwt_extended'
     ],
     entry_points={
         'console_scripts': [
