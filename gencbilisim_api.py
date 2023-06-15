@@ -7,6 +7,7 @@ from flask import request, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from .models.Database import Database
+from .models.Users import Users
 
 app = Flask(__name__)
 
@@ -19,13 +20,6 @@ CORS(app)
 
 jwt = JWTManager(app)
 db = Database()
-
-
-# Kullanıcı verilerini veritabanından sorgulama
-def get_user(username):
-    db.connect()
-    db.cursor.execute('SELECT * FROM users WHERE username = ? AND active = ?', (username, 1,))
-    return db.cursor.fetchone()
 
 
 @app.route('/')
@@ -41,16 +35,7 @@ def login():
     if not username or not password:
         return jsonify({'message': 'Geçersiz kullanıcı adı veya şifre'}), 400
 
-    user = get_user(username)
-
-    if not user or user['password'] != password:
-        return jsonify({'message': 'Geçersiz kullanıcı adı veya şifre'}), 401
-
-    try:
-        access_token = create_access_token(identity=user)
-        return jsonify({'access_token': access_token}), 200
-    except Exception as e:
-        return jsonify({'message': f'Hata oluştu: {str(e)}'}), 500
+    return Users().login(username, password)
 
 
 # Korumalı bir rotaya örnek
