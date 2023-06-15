@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import sqlite3
 import os
+from werkzeug.security import generate_password_hash
 
 load_dotenv()
 
@@ -44,8 +45,7 @@ def insert_initial_data():
     cursor.execute('''
         INSERT OR IGNORE INTO users (name, username, email, password, active)
         VALUES (?, ?, ?, ?, ?)
-    ''', ('Samet ATABAŞ', 'sametatabasch', 'sametatabasch@gmail.com', 'P@swd123', 1))
-
+    ''', ('Samet ATABAŞ', 'sametatabasch', 'sametatabasch@gmail.com', generate_password_hash('P@swd123'), 1))
     # Add Relays
     cursor.execute('''INSERT OR IGNORE INTO relays(status,name) VALUES(0, 'relay1'),(0, 'relay2');
     ''')
