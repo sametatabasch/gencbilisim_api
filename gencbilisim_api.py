@@ -33,7 +33,7 @@ def login():
     password = request.json.get('password')
 
     if not username or not password:
-        return jsonify({'message': 'Geçersiz kullanıcı adı veya şifre'}), 400
+        return jsonify({'message': 'Geçersiz veri'}), 400
 
     return Users().login(username, password)
 
@@ -49,12 +49,13 @@ def protected():
         return jsonify({'message': f'Hata oluştu: {str(e)}'}), 500
 
 
-@app.route('/relayStatus')
-def role_status():
+@app.route('/relayStatus', methods=['POST'])
+@jwt_required()
+def relay_status():
     db.connect()
     relays = None
     try:
-        relays = Database.cursor.execute("SELECT * FROM relays;").fetchall()
+        relays = db.cursor.execute("SELECT * FROM relays;").fetchall()
         db.disconnect()
     except sqlite3.Error as e:
         print(e)
@@ -62,7 +63,8 @@ def role_status():
     return jsonify(relays)
 
 
-@app.route('/changeRelayStatus')
+@app.route('/changeRelayStatus', methods=['POST'])
+@jwt_required()
 def change_relay_status():
     args = request.args
     relays = [
