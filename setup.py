@@ -1,9 +1,10 @@
 from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name='gencbilisim_api',
     version='1.0.0',
-    packages=[''],
+    packages=find_packages(),
     url='',
     license='',
     author='sametatabasch',
@@ -21,4 +22,8 @@ setup(
             'run-setup = run_setup:main',
         ],
     },
+    # bdist_wheel parametresi eklendi
+    setup_requires=[
+        'wheel',
+    ],
 )
