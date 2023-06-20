@@ -66,7 +66,7 @@ def set_secret_key():
                 existing_env_values[key] = value
 
     # Güçlü bir secret_key oluştur
-    secret_key = secrets.token_hex(32)
+    secret_key = secrets.token_urlsafe(32)
 
     # .env dosyasına yeni secret_key değerini ekle
     existing_env_values['SECRET_KEY'] = secret_key
