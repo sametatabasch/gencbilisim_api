@@ -18,7 +18,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'create-api-database = create_database:main',
+            'run-setup = run_setup:main',
         ],
     },
 )

@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import sqlite3
 import os
+import secrets
 from werkzeug.security import generate_password_hash
 
 load_dotenv()
@@ -54,6 +55,22 @@ def insert_initial_data():
     conn.close()
 
 
+def set_secret_key():
+    # Güçlü bir secret_key oluştur
+    secret_key = secrets.token_hex(32)
+
+    # .env dosyasına secret_key değerini ekle
+    with open('.env', 'w') as env_file:
+        env_file.write(f"SECRET_KEY={secret_key}\n")
+
+    # Environment değişkenine de secret_key'i ekleyelim
+    os.environ['SECRET_KEY'] = secret_key
+
+    print("Secret key oluşturuldu ve .env dosyasına kaydedildi.")
+
+
 def main():
+    set_secret_key()
     create_tables()
     insert_initial_data()
+

@@ -1,6 +1,7 @@
 # Gencbilisim.net API
 
 ## Installation
+- run ``` mv .env.sample .env``` and fill env variables
 - python3 -m venv venv
 - source venv/bin/activate
 - pip install . 
