@@ -1,12 +1,12 @@
 from distutils.core import setup
-from setuptools import setup, find_packages
+
 
 setup(
     name='gencbilisim_api',
     version='1.0.0',
-    packages=find_packages(),
-    url='',
-    license='',
+    packages=[''],
+    url='https://github.com/sametatabasch/gencbilisim-api',
+    license='MIT',
     author='sametatabasch',
     author_email='sametatabasch@gmail.com',
     description='',
