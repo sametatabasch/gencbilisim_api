@@ -17,5 +17,8 @@ import site
 
 site.addsitedir(site_packages)
 
+# dotenv modülünü kullanarak ortam değişkenlerini yükleyin
+import dotenv
+dotenv.load_dotenv(app_dir + '/gencbilisim_api/.env')
 # Uygulama örneğini alın
 from gencbilisim_api import app as application
