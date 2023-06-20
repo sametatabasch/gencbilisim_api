@@ -6,8 +6,8 @@ from flask import Flask
 from flask import request, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
-from .models.Database import Database
-from .models.Users import Users
+from models.Database import Database
+from models.Users import Users
 
 app = Flask(__name__)
 
