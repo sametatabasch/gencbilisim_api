@@ -36,7 +36,7 @@ def create_tables():
 
     conn.commit()
     conn.close()
-
+    print("Veri tabanı tabloları oluşturuldu")
 
 def insert_initial_data():
     conn = sqlite3.connect(DATABASE_PATH)
@@ -53,20 +53,22 @@ def insert_initial_data():
 
     conn.commit()
     conn.close()
-
+    print("Tablolara örnek ilk veriler eklendi")
 
 def set_secret_key():
     # .env dosyasını oku ve mevcut değerleri al
     existing_env_values = {}
     with open('.env', 'r') as env_file:
         for line in env_file:
-            key, value = line.strip().split('=')
-            existing_env_values[key] = value
+            line = line.strip()
+            if line:
+                key, value = line.split('=', 1)
+                existing_env_values[key] = value
 
     # Güçlü bir secret_key oluştur
     secret_key = secrets.token_hex(32)
 
-    # Yeni secret_key değerini .env dosyasına ekle
+    # .env dosyasına yeni secret_key değerini ekle
     existing_env_values['SECRET_KEY'] = secret_key
 
     # .env dosyasını güncelle
@@ -77,7 +79,7 @@ def set_secret_key():
     # Environment değişkenine de secret_key'i ekleyelim
     os.environ['SECRET_KEY'] = secret_key
 
-    print("Secret key güncellendi ve .env dosyasına kaydedildi.")
+    print("Secret key .env dosyasına eklenmiştir.")
 
 
 def main():
