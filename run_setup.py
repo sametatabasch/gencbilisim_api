@@ -56,17 +56,28 @@ def insert_initial_data():
 
 
 def set_secret_key():
+    # .env dosyasını oku ve mevcut değerleri al
+    existing_env_values = {}
+    with open('.env', 'r') as env_file:
+        for line in env_file:
+            key, value = line.strip().split('=')
+            existing_env_values[key] = value
+
     # Güçlü bir secret_key oluştur
     secret_key = secrets.token_hex(32)
 
-    # .env dosyasına secret_key değerini ekle
+    # Yeni secret_key değerini .env dosyasına ekle
+    existing_env_values['SECRET_KEY'] = secret_key
+
+    # .env dosyasını güncelle
     with open('.env', 'w') as env_file:
-        env_file.write(f"SECRET_KEY={secret_key}\n")
+        for key, value in existing_env_values.items():
+            env_file.write(f"{key}={value}\n")
 
     # Environment değişkenine de secret_key'i ekleyelim
     os.environ['SECRET_KEY'] = secret_key
 
-    print("Secret key oluşturuldu ve .env dosyasına kaydedildi.")
+    print("Secret key güncellendi ve .env dosyasına kaydedildi.")
 
 
 def main():
