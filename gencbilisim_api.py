@@ -90,6 +90,40 @@ def change_relay_status():
         return e
 
 
+@app.route('/get_schedule', methods=['POST'])
+@jwt_required()
+def get_schedule():
+    try:
+        #todo hocaya göre ders programı veri tabanından çekilecek
+        current_user = get_jwt_identity()
+        return jsonify({"schedule": {
+            0: {
+                "BILP-113": [[10, 0], [15, 0]],
+                "BILP-114": [[15, 0], [17, 0]]
+
+            }, 1: {
+                "BILP-2": [[12, 0], [20, 29]]
+            }, 2: {
+                "BILP-3": [[12, 0], [17, 0]]
+            }, 3: {
+                "GZT-105": [[9, 0], [16, 0]]
+
+            }, 4: {
+                "BILP-201": [[8, 0], [10, 00]],
+                "BILP-207": [[10, 0], [12, 00]],
+                "BILP-107": [[13, 0], [17, 00]],
+            },
+            5: {
+
+            },
+            6: {
+
+            }
+        }}), 200
+    except Exception as e:
+        return jsonify({'message': f'Hata oluştu: {str(e)}'}), 500
+
+
 @app.errorhandler(403)
 def forbidden(e):
     return jsonify({
