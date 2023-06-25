@@ -52,7 +52,7 @@ def create_tables():
     );
     ''')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS lecturer (
+        CREATE TABLE IF NOT EXISTS instructors (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             last_name TEXT,
@@ -104,7 +104,7 @@ def insert_initial_data():
     ])
 
     cursor.execute('''
-        INSERT OR IGNORE INTO lecturer (name, last_name, card_id, schedule)
+        INSERT OR IGNORE INTO instructors (name, last_name, card_id, schedule)
         VALUES (?, ?, ?, ?)
         ''', ("Samet", "ATABAŞ", "d56ef659",
               json.dumps({
