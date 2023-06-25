@@ -1,5 +1,4 @@
 """User Model"""
-import os
 import sqlite3
 
 from dotenv import load_dotenv
@@ -30,7 +29,7 @@ class User:
         self.password = user.password
         self.active = user.active
 
-    def fil_by_data(self, data):
+    def fill_by_data(self, data):
         """
 
         :param data: dict
@@ -38,12 +37,18 @@ class User:
         """
         if not data or not isinstance(data, dict):
             return False
+
+        required_keys = ['id', 'name', 'email', 'username', 'password', 'active']
+        if not all(key in data for key in required_keys):
+            return False
+
         self.id = data['id']
         self.name = data['name']
         self.email = data['email']
         self.username = data['username']
         self.password = data['password']
         self.active = data['active']
+        return True
 
     def serialize(self):
         return \
@@ -80,8 +85,7 @@ class Users:
             user_id = db.cursor.lastrowid
         except sqlite3.Error as e:
             db.disconnect()
-            print(e)
-            return False
+            return jsonify({'error': f'Hata oluştu: {str(e)}'}), 500
         return User(user_id)
 
     def get_all(self):
@@ -102,10 +106,10 @@ class Users:
         db.cursor.execute("SELECT * FROM users WHERE id=? AND active=1", (user_id,))
         user = db.cursor.fetchone()
         u = User()
-        u.fil_by_data(user)
+        u.fill_by_data(user)
         db.disconnect()
         if not u:
-            return False
+            return jsonify({'error': 'Kullanıcı bulunamadı'}), 404
         return u
 
     def get_by_username(self, username):
@@ -118,9 +122,9 @@ class Users:
         db.cursor.execute("SELECT * FROM users WHERE username=? AND active=1", (username,))
         user = db.cursor.fetchone()
         u = User()
-        u.fil_by_data(user)
+        u.fill_by_data(user)
         if not u:
-            return False
+            return jsonify({'error': 'Kullanıcı bulunamadı'}), 404
         return u
 
     def update(self, data):
@@ -133,7 +137,7 @@ class Users:
             return False
         old_user = User(data['id'])
         new_user = User()
-        new_user.fil_by_data(data)
+        new_user.fill_by_data(data)
 
         if old_user == new_user:
             print("Kullanıcılar aynı")
@@ -169,10 +173,10 @@ class Users:
         user = self.get_by_username(username)
 
         if not user or not check_password_hash(user.password, password):
-            return jsonify({'message': 'Geçersiz kullanıcı adı veya şifre'}), 401
+            return jsonify({'error': 'Geçersiz kullanıcı adı veya şifre'}), 401
 
         try:
             access_token = create_access_token(identity=user.serialize())
             return jsonify({'access_token': access_token}), 200
         except Exception as e:
-            return jsonify({'message': f'Hata oluştu: {str(e)}'}), 500
+            return jsonify({'error': f'Hata oluştu: {str(e)}'}), 500
