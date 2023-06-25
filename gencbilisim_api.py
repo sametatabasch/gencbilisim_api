@@ -38,16 +38,6 @@ def login():
     return Users().login(username, password)
 
 
-# Korumalı bir rotaya örnek
-@app.route('/protected', methods=['POST'])
-@jwt_required()
-def protected():
-    try:
-        current_user = get_jwt_identity()
-        return jsonify({'message': f'Hoş geldin, {current_user["name"]}! Bu korumalı veriye erişebilirsin.'}), 200
-    except Exception as e:
-        return jsonify({'message': f'Hata oluştu: {str(e)}'}), 500
-
 
 @app.route('/relayStatus', methods=['POST'])
 @jwt_required()
