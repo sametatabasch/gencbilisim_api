@@ -29,11 +29,11 @@ class Instructor():
 
     def fill_by_data(self, data: dict):
         if not data or not isinstance(data, dict):
-            return jsonify({"error": "Hatalı veri"}), 500
+            return jsonify({"error": "(Instructor.fill_by_data) Hatalı veri"}), 500
 
         required_keys = ['name', 'last_name', 'card_id', 'schedule']
         if not all(key in data for key in required_keys):
-            return jsonify({"error": "Eksik veri"}), 500
+            return jsonify({"error": "(Instructor.fill_by_data) Eksik veri"}), 500
 
         self.id = data['id'] or None
         self.name = data['name']
@@ -61,7 +61,7 @@ class Instructors:
 
     def create(self, instructor: Instructor):
         if instructor or not isinstance(instructor, Instructor):
-            return jsonify({'error': f'Kullanıcı bilgileri yanlış'}), 500
+            return jsonify({'error': f'(Instructors.create)Kullanıcı bilgileri yanlış'}), 500
 
         db.connect()
 
@@ -74,7 +74,7 @@ class Instructors:
             instructor.id = db.cursor.lastrowid
         except sqlite3.Error as e:
             db.disconnect()
-            return jsonify({'error': f'Hata oluştu: {str(e)}'}), 500
+            return jsonify({'error': f'(Instructors.create) Hata oluştu: {str(e)}'}), 500
         return instructor
 
     def get_all(self):
@@ -93,7 +93,7 @@ class Instructors:
         i.fill_by_data(instructor)
         db.disconnect()
         if not i:
-            return jsonify({'error': 'Hoca bulunamadı'}), 404
+            return jsonify({'error': '(Instructors.get_by_id) Hoca bulunamadı'}), 404
         return i
 
     def get_by_card_id(self, card_id: str):
@@ -104,7 +104,7 @@ class Instructors:
         i.fill_by_data(instructor)
         db.disconnect()
         if not i:
-            return jsonify({'error': 'Hoca bulunamadı'}), 404
+            return jsonify({'error': '(Instructors.get_card_id)Hoca bulunamadı'}), 404
         return i
 
     def delete(self, instructor_id):
@@ -112,4 +112,4 @@ class Instructors:
         db.cursor.execute(f"DELETE FROM {self.table_name} WHERE id=?", (instructor_id,))
         db.connection.commit()
         db.disconnect()
-        return jsonify({'message': 'Hoca silindi'}), 200
+        return jsonify({'message': '(Instructors.delete) Hoca silindi'}), 200
