@@ -173,6 +173,8 @@ def insert_initial_data():
                 }
             ))
         ])
+        conn.commit()
+        conn.close()
         print("Tablolara örnek ilk veriler eklendi")
     except sqlite3.Error as e:
         print(e)
