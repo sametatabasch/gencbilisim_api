@@ -87,9 +87,14 @@ def get_schedule():
         # todo hocaya göre ders programı veri tabanından çekilecek
         current_user = get_jwt_identity()
         instructor = Instructors().get_by_card_id(request.json.get('card_id'))
-        return jsonify({"schedule": instructor.schedule}), 200
+        if not instructor:
+            return jsonify(
+                {'error': 'Hoca Bulunamadı'}), 404
+        else:
+            return jsonify(
+                {"schedule": instructor.schedule, "name": instructor.name, "last_name": instructor.last_name}), 200
     except Exception as e:
-        return jsonify({'message': f'Hata oluştu (get schedule): {str(e)}'}), 500
+        return jsonify({'error': f'Hata oluştu (get schedule): {str(e)}'}), 500
 
 
 @app.errorhandler(403)

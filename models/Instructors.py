@@ -11,6 +11,7 @@ load_dotenv()
 
 db = Database(os.environ.get('ATTENDANCE_DATABASE_PATH'))
 
+
 class Instructor():
     id = name = last_name = card_id = schedule = ''
 
@@ -89,6 +90,8 @@ class Instructors:
         db.connect()
         db.cursor.execute(f"""Select * From {self.table_name} where id=?""", (instructor_id,))
         instructor = db.cursor.fetchone()
+        if not instructor:
+            return False
         i = Instructor()
         i.fill_by_data(instructor)
         db.disconnect()
@@ -100,6 +103,8 @@ class Instructors:
         db.connect()
         db.cursor.execute(f"SELECT * FROM {self.table_name} WHERE card_id=?", (card_id,))
         instructor = db.cursor.fetchone()
+        if not instructor:
+            return False
         i = Instructor()
         i.fill_by_data(instructor)
         db.disconnect()
