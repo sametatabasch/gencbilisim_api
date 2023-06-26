@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from models.Database import Database
 from models.Users import Users
-from models.Instructors import Instructor, Instructors
+from models.Attendence import Instructors, Students
 
 app = Flask(__name__)
 
@@ -95,6 +95,17 @@ def get_schedule():
                 {"schedule": instructor.schedule, "name": instructor.name, "last_name": instructor.last_name}), 200
     except Exception as e:
         return jsonify({'error': f'Hata oluştu (get schedule): {str(e)}'}), 500
+
+
+@app.route('/get_students', methods=['POST'])
+@jwt_required()
+def get_students():
+    try:
+        current_user = get_jwt_identity()
+        students = Students().get_all()
+        return jsonify({"students": students})
+    except Exception as e:
+        return jsonify({'error': f'Hata oluştu (get_students): {str(e)}'}), 500
 
 
 @app.errorhandler(403)
