@@ -1,3 +1,4 @@
+import json
 import sqlite3
 
 from dotenv import load_dotenv
@@ -9,7 +10,6 @@ import os
 load_dotenv()
 
 db = Database(os.environ.get('ATTENDANCE_DATABASE_PATH'))
-
 
 class Instructor():
     id = name = last_name = card_id = schedule = ''
@@ -68,7 +68,7 @@ class Instructors:
         try:
             db.cursor.execute(
                 f'''INSERT OR IGNORE INTO {self.table_name} (name, last_name, card_id, schedule) VALUES (?, ?, ?, ?)''',
-                (instructor.name, instructor.last_name, instructor.card_id, instructor.schedule)
+                (instructor.name, instructor.last_name, instructor.card_id, json.dumps(instructor.schedule))
             )
             db.connection.commit()
             instructor.id = db.cursor.lastrowid
