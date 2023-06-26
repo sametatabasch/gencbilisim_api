@@ -9,6 +9,7 @@ load_dotenv(".env")
 
 DATABASE_PATH = os.environ.get('DATABASE_PATH')
 ATTENDANCE_DATABASE_PATH = os.environ.get('ATTENDANCE_DATABASE_PATH')
+ROOT_PATH = os.environ.get('ROOT_PATH')
 
 
 def create_tables():
@@ -90,88 +91,91 @@ def insert_initial_data():
 
     conn.commit()
     conn.close()
+    try:
 
-    conn = sqlite3.connect(ATTENDANCE_DATABASE_PATH)
-    cursor = conn.cursor()
-    cursor.executemany('''
-            INSERT OR IGNORE INTO students (name, last_name, student_id, card_id)
+        conn = sqlite3.connect(ATTENDANCE_DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.executemany('''
+                INSERT OR IGNORE INTO students (name, last_name, student_id, card_id)
+                VALUES (?, ?, ?, ?)
+            ''', [
+            ('Samet', 'ATABAŞ', '090606043', '93bdd50b'),
+            ('Kart', ' Bir', '090606044', '3413fc51'),
+            ('Kart', ' İki', '090606045', '2aca190b'),
+            ('Diş', ' KTU', '090606046', 'd226d935'),
+        ])
+
+        cursor.execute('''
+            INSERT OR IGNORE INTO instructors (name, last_name, card_id, schedule)
             VALUES (?, ?, ?, ?)
-        ''', [
-        ('Samet', 'ATABAŞ', '090606043', '93bdd50b'),
-        ('Kart', ' Bir', '090606044', '3413fc51'),
-        ('Kart', ' İki', '090606045', '2aca190b'),
-        ('Diş', ' KTU', '090606046', 'd226d935'),
-    ])
+            ''', ("Samet", "ATABAŞ", "d56ef659",
+                  json.dumps({
+                      0: {
+                          "BILP-113": [[10, 0], [15, 0]],
+                          "BILP-114": [[15, 0], [17, 0]]
 
-    cursor.execute('''
-        INSERT OR IGNORE INTO instructors (name, last_name, card_id, schedule)
-        VALUES (?, ?, ?, ?)
-        ''', ("Samet", "ATABAŞ", "d56ef659",
-              json.dumps({
-                  0: {
-                      "BILP-113": [[10, 0], [15, 0]],
-                      "BILP-114": [[15, 0], [17, 0]]
+                      }, 1: {
+                          "BILP-2": [[12, 0], [20, 29]]
+                      }, 2: {
+                          "BILP-3": [[12, 0], [17, 0]]
+                      }, 3: {
+                          "GZT-105": [[9, 0], [16, 0]]
 
-                  }, 1: {
-                      "BILP-2": [[12, 0], [20, 29]]
-                  }, 2: {
-                      "BILP-3": [[12, 0], [17, 0]]
-                  }, 3: {
-                      "GZT-105": [[9, 0], [16, 0]]
+                      }, 4: {
+                          "BILP-201": [[8, 0], [10, 00]],
+                          "BILP-207": [[10, 0], [12, 00]],
+                          "BILP-107": [[13, 0], [17, 00]],
+                      },
+                      5: {
 
-                  }, 4: {
-                      "BILP-201": [[8, 0], [10, 00]],
-                      "BILP-207": [[10, 0], [12, 00]],
-                      "BILP-107": [[13, 0], [17, 00]],
-                  },
-                  5: {
+                      },
+                      6: {
 
-                  },
-                  6: {
+                      }})
+                  )
+                       )
 
-                  }})
-              )
-                   )
-
-    cursor.executemany('''
-        INSERT OR IGNORE INTO lessons (name, code, attendance)
-        VALUES (?, ?, ?)
-        ''', [
-        ('Mathematics', 'MATH101', json.dumps(
-            {
-                1: [
-                    {"card_id": "93bdd50b", "student_id": "090606043"},
-                    {"card_id": "3413fc51", "student_id": "090606044"}
-                ],
-                2: [
-                    {"card_id": "93bdd50b", "student_id": "090606043"}
-                ]
-            }
-        )),
-        ('Physics', 'PHYS201', json.dumps(
-            {
-                1: [
-                    {"card_id": "93bdd50b", "student_id": "090606043"},
-                    {"card_id": "3413fc51", "student_id": "090606044"}
-                ],
-                2: [
-                    {"card_id": "93bdd50b", "student_id": "090606043"}
-                ]
-            }
-        )),
-        ('Chemistry', 'CHEM301', json.dumps(
-            {
-                1: [
-                    {"card_id": "93bdd50b", "student_id": "090606043"},
-                    {"card_id": "3413fc51", "student_id": "090606044"}
-                ],
-                2: [
-                    {"card_id": "93bdd50b", "student_id": "090606043"}
-                ]
-            }
-        ))
-    ])
-    print("Tablolara örnek ilk veriler eklendi")
+        cursor.executemany('''
+            INSERT OR IGNORE INTO lessons (name, code, attendance)
+            VALUES (?, ?, ?)
+            ''', [
+            ('Mathematics', 'MATH101', json.dumps(
+                {
+                    1: [
+                        {"card_id": "93bdd50b", "student_id": "090606043"},
+                        {"card_id": "3413fc51", "student_id": "090606044"}
+                    ],
+                    2: [
+                        {"card_id": "93bdd50b", "student_id": "090606043"}
+                    ]
+                }
+            )),
+            ('Physics', 'PHYS201', json.dumps(
+                {
+                    1: [
+                        {"card_id": "93bdd50b", "student_id": "090606043"},
+                        {"card_id": "3413fc51", "student_id": "090606044"}
+                    ],
+                    2: [
+                        {"card_id": "93bdd50b", "student_id": "090606043"}
+                    ]
+                }
+            )),
+            ('Chemistry', 'CHEM301', json.dumps(
+                {
+                    1: [
+                        {"card_id": "93bdd50b", "student_id": "090606043"},
+                        {"card_id": "3413fc51", "student_id": "090606044"}
+                    ],
+                    2: [
+                        {"card_id": "93bdd50b", "student_id": "090606043"}
+                    ]
+                }
+            ))
+        ])
+        print("Tablolara örnek ilk veriler eklendi")
+    except sqlite3.Error as e:
+        print(e)
 
 
 def set_secret_key():
@@ -205,4 +209,3 @@ def main():
     set_secret_key()
     create_tables()
     insert_initial_data()
-
