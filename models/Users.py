@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .Database import Database
 from flask import jsonify
 from flask_jwt_extended import create_access_token
+from typing import Optional
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ db = Database()
 class User:
     id = name = email = username = password = active = ""
 
-    def __init__(self, user_id=None):
+    def __init__(self, user_id: Optional[int] = None):
         if user_id:
             self.id = user_id
             self.fill_by_id()
@@ -28,6 +29,7 @@ class User:
         self.username = user.username
         self.password = user.password
         self.active = user.active
+        return True
 
     def fill_by_data(self, data):
         """
@@ -36,13 +38,13 @@ class User:
         :return:
         """
         if not data or not isinstance(data, dict):
-            return False
+            return jsonify({"error": "Hatalı veri"}), 500
 
-        required_keys = ['id', 'name', 'email', 'username', 'password', 'active']
+        required_keys = ['name', 'email', 'username', 'password', 'active']
         if not all(key in data for key in required_keys):
-            return False
+            return jsonify({"error": "Eksik veri"}), 500
 
-        self.id = data['id']
+        self.id = data['id'] or None
         self.name = data['name']
         self.email = data['email']
         self.username = data['username']
@@ -63,34 +65,36 @@ class User:
 
 
 class Users:
+    table_name = "users"
+
     def __init__(self):
         return
 
-    def create(self, data):
+    def create(self, user: User):
         """
 
-        :param data: dict
+        :param user: User
         :return:
         """
 
-        if data or not isinstance(data, dict):
+        if user or not isinstance(user, User):
             return False
         db.connect()
         try:
             db.cursor.execute(
-                "INSERT INTO users (name, email, username, password, active) VALUES (?, ?, ?, ?, ?)",
-                (data['name'], data['email'], data['username'], generate_password_hash(data['password']), True)
+                f"INSERT INTO {self.table_name} (name, email, username, password, active) VALUES (?, ?, ?, ?, ?)",
+                (user['name'], user['email'], user['username'], generate_password_hash(user['password']), True)
             )
             db.connection.commit()
             user_id = db.cursor.lastrowid
         except sqlite3.Error as e:
             db.disconnect()
             return jsonify({'error': f'Hata oluştu: {str(e)}'}), 500
-        return User(user_id)
+        return user
 
     def get_all(self):
         db.connect()
-        db.cursor.execute("SELECT * FROM users WHERE active=1")
+        db.cursor.execute(f"SELECT * FROM {self.table_name} WHERE active=1")
         users = db.cursor.fetchall()
         # todo dönen değeri kontrol et
         db.disconnect()
@@ -103,7 +107,7 @@ class Users:
         :return: User
         """
         db.connect()
-        db.cursor.execute("SELECT * FROM users WHERE id=? AND active=1", (user_id,))
+        db.cursor.execute(f"SELECT * FROM {self.table_name} WHERE id=? AND active=1", (user_id,))
         user = db.cursor.fetchone()
         u = User()
         u.fill_by_data(user)
@@ -119,7 +123,7 @@ class Users:
         :return: User
         """
         db.connect()
-        db.cursor.execute("SELECT * FROM users WHERE username=? AND active=1", (username,))
+        db.cursor.execute(f"SELECT * FROM {self.table_name} WHERE username=? AND active=1", (username,))
         user = db.cursor.fetchone()
         u = User()
         u.fill_by_data(user)
@@ -154,7 +158,7 @@ class Users:
 
     def delete(self, user_id):
         db.connect()
-        db.cursor.execute("DELETE FROM users WHERE id=?", (user_id,))
+        db.cursor.execute(f"DELETE FROM {self.table_name} WHERE id=?", (user_id,))
         db.connection.commit()
         db.disconnect()
         return True
@@ -162,7 +166,7 @@ class Users:
     def disable_account(self, user_id):
         db.connect()
         db.cursor.execute(
-            "UPDATE users SET active=0 WHERE id=?",
+            f"UPDATE {self.table_name} SET active=0 WHERE id=?",
             (user_id,)
         )
         db.connection.commit()
