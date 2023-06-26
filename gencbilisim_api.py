@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from models.Database import Database
 from models.Users import Users
+from models.Instructors import Instructor, Instructors
 
 app = Flask(__name__)
 
@@ -36,7 +37,6 @@ def login():
         return jsonify({'message': 'Geçersiz veri'}), 400
 
     return Users().login(username, password)
-
 
 
 @app.route('/relayStatus', methods=['POST'])
@@ -84,32 +84,10 @@ def change_relay_status():
 @jwt_required()
 def get_schedule():
     try:
-        #todo hocaya göre ders programı veri tabanından çekilecek
+        # todo hocaya göre ders programı veri tabanından çekilecek
         current_user = get_jwt_identity()
-        return jsonify({"schedule": {
-            0: {
-                "BILP-113": [[10, 0], [15, 0]],
-                "BILP-114": [[15, 0], [17, 0]]
-
-            }, 1: {
-                "BILP-2": [[12, 0], [20, 29]]
-            }, 2: {
-                "BILP-3": [[12, 0], [17, 0]]
-            }, 3: {
-                "GZT-105": [[9, 0], [16, 0]]
-
-            }, 4: {
-                "BILP-201": [[8, 0], [10, 00]],
-                "BILP-207": [[10, 0], [12, 00]],
-                "BILP-107": [[13, 0], [17, 00]],
-            },
-            5: {
-
-            },
-            6: {
-
-            }
-        }}), 200
+        instructor = Instructors().get_by_card_id(request.json.get('card_id'))
+        return jsonify({"schedule": instructor.schedule}), 200
     except Exception as e:
         return jsonify({'message': f'Hata oluştu: {str(e)}'}), 500
 
