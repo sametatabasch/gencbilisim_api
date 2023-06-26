@@ -2,12 +2,13 @@ import os
 import sqlite3
 
 from dotenv import load_dotenv
+from typing import Optional
 
 load_dotenv()
 
 
 class Database:
-    def __init__(self, path):
+    def __init__(self, path: Optional[str] = None):
         self.file_path = path if path else os.environ.get('DATABASE_PATH')
 
         return
