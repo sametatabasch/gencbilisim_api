@@ -1,14 +1,14 @@
 import sqlite3
 
 from dotenv import load_dotenv
-from werkzeug.security import generate_password_hash, check_password_hash
 from .Database import Database
 from flask import jsonify
 from typing import Optional
+import os
 
 load_dotenv()
 
-db = Database()
+db = Database(os.environ.get('ATTENDANCE_DATABASE_PATH'))
 
 
 class Instructor():

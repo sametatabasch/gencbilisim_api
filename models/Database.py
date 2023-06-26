@@ -7,10 +7,11 @@ load_dotenv()
 
 
 class Database:
-    def __init__(self):
+    def __init__(self, path):
+        self.file_path = path if path else os.environ.get('DATABASE_PATH')
+
         return
 
-    file_path = os.environ.get('DATABASE_PATH')
     connection = None
     cursor = None
 
