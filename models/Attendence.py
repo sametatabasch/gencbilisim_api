@@ -118,3 +118,30 @@ class Instructors:
         db.connection.commit()
         db.disconnect()
         return jsonify({'message': '(Instructors.delete) Hoca silindi'}), 200
+
+
+class Students:
+    table_name = "students"
+
+    def __init__(self):
+        return
+
+    def create(self):
+        pass
+
+    def get_all(self):
+        db.connect()
+        db.cursor.execute(f"Select * FROM {self.table_name}")
+        students = db.cursor.fetchall()
+        # todo dönen değerleri kontrol et
+        db.disconnect()
+        return students
+
+    def get_bay_id(self, std_id: int):
+        pass
+
+    def get_by_card_id(self, card_id: str):
+        pass
+
+    def delete(self, std_id: int):
+        pass
