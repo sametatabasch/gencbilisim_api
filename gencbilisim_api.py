@@ -87,7 +87,6 @@ def get_schedule():
         # todo hocaya göre ders programı veri tabanından çekilecek
         current_user = get_jwt_identity()
         instructor = Instructors().get_by_card_id(request.json.get('card_id'))
-        print(instructor.schedule)
         return jsonify({"schedule": instructor.schedule}), 200
     except Exception as e:
         return jsonify({'message': f'Hata oluştu (get schedule): {str(e)}'}), 500
