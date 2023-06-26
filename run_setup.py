@@ -5,7 +5,7 @@ import secrets
 import json
 from werkzeug.security import generate_password_hash
 
-load_dotenv()
+load_dotenv(".env")
 
 DATABASE_PATH = os.environ.get('DATABASE_PATH')
 ATTENDANCE_DATABASE_PATH = os.environ.get('ATTENDANCE_DATABASE_PATH')
