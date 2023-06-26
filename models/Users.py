@@ -7,6 +7,7 @@ from .Database import Database
 from flask import jsonify
 from flask_jwt_extended import create_access_token
 from typing import Optional
+from datetime import timedelta
 
 load_dotenv()
 
@@ -180,7 +181,7 @@ class Users:
             return jsonify({'error': 'Geçersiz kullanıcı adı veya şifre'}), 401
 
         try:
-            access_token = create_access_token(identity=user.serialize())
+            access_token = create_access_token(identity=user.serialize(),expires_delta=timedelta(days=1))
             return jsonify({'access_token': access_token}), 200
         except Exception as e:
             return jsonify({'error': f'Hata oluştu: {str(e)}'}), 500
