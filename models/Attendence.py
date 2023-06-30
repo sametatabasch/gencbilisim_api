@@ -6,27 +6,33 @@ from .Database import Database
 from flask import jsonify
 from typing import Optional
 import os
+import traceback
 
 load_dotenv()
 
 db = Database(os.environ.get('ATTENDANCE_DATABASE_PATH'))
 
 
-class Instructor():
-    id = name = last_name = card_id = schedule = ''
+class Instructor:
+    id = name = last_name = card_id = schedule = None
 
-    def __int__(self, instructor_id: Optional[int] = None):
-        if instructor_id:
+    def __init__(self, instructor_id: Optional[int] = None):
+        if instructor_id is not None:
             self.id = instructor_id
-        return
+            self.fill_by_id()
+            pass
 
     def fill_by_id(self):
-        instructor = Instructors.get_by_id(self.id)
-        self.name = instructor.name
-        self.last_name = instructor.last_name
-        self.card_id = instructor.card_id
-        self.schedule = instructor.schedule  # todo bu veriyi kontrol et
-        return True
+        if self.id:
+            instructors = Instructors()
+            instructor = instructors.get_by_id(self.id)
+            if instructor:
+                self.name = instructor.name
+                self.last_name = instructor.last_name
+                self.card_id = instructor.card_id
+                self.schedule = instructor.schedule
+                return True
+        return False
 
     def fill_by_data(self, data: dict):
         # todo validate data
@@ -45,14 +51,13 @@ class Instructor():
         return True
 
     def serialize(self):
-        return \
-            {
-                "id": self.id,
-                "name": self.name,
-                "last_name": self.last_name,
-                "card_id": self.card_id,
-                "schedule": self.schedule,
-            }
+        return {
+            "id": self.id,
+            "name": self.name,
+            "last_name": self.last_name,
+            "card_id": self.card_id,
+            "schedule": self.schedule,
+        }
 
 
 class Instructors:
@@ -79,6 +84,31 @@ class Instructors:
         except sqlite3.Error as e:
             db.disconnect()
             return jsonify({'error': f'(Instructors.create) Hata oluştu: {str(e)}'}), 500
+
+    def update(self, data: dict):
+        if not data or not isinstance(data, dict):
+            return jsonify({'error': '(Instructors.update) Hatalı veri'}), 500
+
+        try:
+            data_without_id = data.copy()
+            data_without_id.pop('id', None)
+            if data_without_id.get('schedule'):
+                data_without_id['schedule'] = json.dumps(data_without_id['schedule'])
+
+            update_query = f"UPDATE {self.table_name} SET "
+            update_query += ", ".join([f"{column} = ?" for column in data_without_id.keys()])
+            update_query += f" WHERE id={data.get('id')}"
+
+            db.connect()
+            db.cursor.execute(update_query, list(data_without_id.values()))
+            db.connection.commit()
+            db.disconnect()
+            instructor = Instructor(data.get('id'))
+            return jsonify({"message": "Güncelleme başarılı", "instructor": instructor.serialize()})
+        except Exception as e:
+            tb = traceback.format_exc()  # Hatayı izin (traceback) olarak al
+            db.disconnect()
+            return jsonify({'error': f'(Instructors.update) Hata oluştu: {str(e)}', 'traceback': tb}), 500
 
     def get_all(self):
         db.connect()

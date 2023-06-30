@@ -100,6 +100,15 @@ def create_instructor():
         return jsonify({'error': 'create_instructor() Hoca Oluşturulamadı', 'details': str(e)}), 404
 
 
+@app.route("/update_instructor/<instructor_id>", methods=['PUT'])
+@jwt_required()
+def update_instructor(instructor_id):
+    instructor_data = request.get_json()
+    instructor_data['id'] = instructor_id
+    instructors = Instructors()
+    return instructors.update(instructor_data)
+
+
 @app.route('/get_schedule', methods=['POST'])
 @jwt_required()
 def get_schedule():
