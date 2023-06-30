@@ -29,6 +29,7 @@ class Instructor():
         return True
 
     def fill_by_data(self, data: dict):
+        # todo validate data
         if not data or not isinstance(data, dict):
             return jsonify({"error": "(Instructor.fill_by_data) Hatalı veri"}), 500
 
@@ -36,11 +37,11 @@ class Instructor():
         if not all(key in data for key in required_keys):
             return jsonify({"error": "(Instructor.fill_by_data) Eksik veri"}), 500
 
-        self.id = data['id'] or None
-        self.name = data['name']
-        self.last_name = data['last_name']
-        self.card_id = data['card_id']
-        self.schedule = data['schedule']
+        self.id = data.get('id')
+        self.name = data.get('name')
+        self.last_name = data.get('last_name')
+        self.card_id = data.get('card_id')
+        self.schedule = data.get('schedule')
         return True
 
     def serialize(self):
@@ -61,22 +62,23 @@ class Instructors:
         return
 
     def create(self, instructor: Instructor):
-        if instructor or not isinstance(instructor, Instructor):
-            return jsonify({'error': f'(Instructors.create)Kullanıcı bilgileri yanlış'}), 500
+        if not instructor or not isinstance(instructor, Instructor):
+            return jsonify({'error': '(Instructors.create) Kullanıcı bilgileri yanlış'}), 500
 
         db.connect()
 
         try:
             db.cursor.execute(
-                f'''INSERT OR IGNORE INTO {self.table_name} (name, last_name, card_id, schedule) VALUES (?, ?, ?, ?)''',
+                f"INSERT INTO {self.table_name} (name, last_name, card_id, schedule) VALUES (?, ?, ?, ?)",
                 (instructor.name, instructor.last_name, instructor.card_id, json.dumps(instructor.schedule))
             )
             db.connection.commit()
             instructor.id = db.cursor.lastrowid
+            db.disconnect()
+            return jsonify({'message': "Hoca oluşturuldu", 'instructor': instructor.serialize()})
         except sqlite3.Error as e:
             db.disconnect()
             return jsonify({'error': f'(Instructors.create) Hata oluştu: {str(e)}'}), 500
-        return instructor
 
     def get_all(self):
         db.connect()

@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from models.Database import Database
 from models.Users import Users
-from models.Attendence import Instructors, Students
+from models.Attendence import Instructors, Instructor, Students
 
 app = Flask(__name__)
 
@@ -78,6 +78,26 @@ def change_relay_status():
     except Exception as e:
         db.disconnect()
         return e
+
+
+@app.route("/create_instructor", methods=["POST"])
+@jwt_required()
+def create_instructor():
+    try:
+        current_user = get_jwt_identity()
+
+        instructor_data = request.json.get("instructor")
+        if instructor_data:
+            instructor = Instructor()
+            if instructor.fill_by_data(instructor_data):
+                instructors = Instructors()
+                return instructors.create(instructor)
+            else:
+                return jsonify({"error": "create_instructor() Hoca bilgileri doldurulamadı"})
+        else:
+            return jsonify({"error": "create_instructor() Hoca bilgileri eksik"})
+    except Exception as e:
+        return jsonify({'error': 'create_instructor() Hoca Oluşturulamadı', 'details': str(e)}), 404
 
 
 @app.route('/get_schedule', methods=['POST'])
