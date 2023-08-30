@@ -99,10 +99,10 @@ def insert_initial_data():
                 INSERT OR IGNORE INTO students (name, last_name, student_id, card_id)
                 VALUES (?, ?, ?, ?)
             ''', [
-            ('Samet', 'ATABAS', '090606043', '93bdd50b'),
+            ('Samet', 'ATABAŞ', '090606043', '93bdd50b'),
             ('Kart', ' Bir', '090606044', '3413fc51'),
-            ('Kart', ' Iki', '090606045', '2aca190b'),
-            ('Dis', ' KTU', '090606046', 'd226d935'),
+            ('Kart', ' İki', '090606045', '2aca190b'),
+            ('Diş', ' KTÜ', '090606046', 'd226d935'),
         ])
 
         cursor.execute('''
