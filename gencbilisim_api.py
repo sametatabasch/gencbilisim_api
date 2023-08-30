@@ -143,13 +143,32 @@ def get_student():
     try:
         current_user = get_jwt_identity()
         student = Students().get_by_card_id(request.json.get('card_id'))
-        if isinstance(student,Student):
+        if isinstance(student, Student):
             return jsonify({"student": student.serialize()})
         else:
             return student
     except Exception as e:
         tb = traceback.format_exc()
         return jsonify({'error': f'Hata oluştu (get_students): {str(e)}', 'traceback': tb}), 500
+
+@app.route("/create_student", methods=["POST"])
+@jwt_required()
+def create_student():
+    try:
+        current_user = get_jwt_identity()
+
+        student_data = request.json.get("student")
+        if student_data:
+            student = Student()
+            if student.fill_by_data(student_data):
+                students = Students()
+                return students.create(student)
+            else:
+                return jsonify({"error": "create_student() Öğrenci bilgileri doldurulamadı"})
+        else:
+            return jsonify({"error": "create_student() Öğrenci bilgileri eksik"})
+    except Exception as e:
+        return jsonify({'error': 'create_student() Öğrenci Oluşturulamadı', 'details': str(e)}), 404
 
 
 @app.errorhandler(403)
