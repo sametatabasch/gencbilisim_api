@@ -20,6 +20,7 @@ class Database:
         """
             change factory for novel syntax of json api
             database data return dict instead of tuple
+
         """
         d = {}
         for idx, col in enumerate(cursor.description):
@@ -30,7 +31,7 @@ class Database:
         try:
             self.connection = sqlite3.connect(self.file_path)
             self.cursor = self.connection.cursor()
-            self.cursor.row_factory = self.dict_factory
+            self.cursor.row_factory = self.dict_factory #@todo sqlite3.Row tells the connection to return rows that behave like dicts.
             return None
         except sqlite3.Error as e:
             print(e)
