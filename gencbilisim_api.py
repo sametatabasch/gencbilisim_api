@@ -8,7 +8,8 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from models.Database import Database
 from models.Users import Users
-from models.Attendence import Instructors, Instructor, Students
+from models.Attendence import Instructors, Instructor, Students, Student
+import traceback
 
 app = Flask(__name__)
 
@@ -113,7 +114,6 @@ def update_instructor(instructor_id):
 @jwt_required()
 def get_schedule():
     try:
-        # todo hocaya göre ders programı veri tabanından çekilecek
         current_user = get_jwt_identity()
         instructor = Instructors().get_by_card_id(request.json.get('card_id'))
         if not instructor:
@@ -135,6 +135,21 @@ def get_students():
         return jsonify({"students": students})
     except Exception as e:
         return jsonify({'error': f'Hata oluştu (get_students): {str(e)}'}), 500
+
+
+@app.route('/get_student', methods=['POST'])
+@jwt_required()
+def get_student():
+    try:
+        current_user = get_jwt_identity()
+        student = Students().get_by_card_id(request.json.get('card_id'))
+        if isinstance(student,Student):
+            return jsonify({"student": student.serialize()})
+        else:
+            return student
+    except Exception as e:
+        tb = traceback.format_exc()
+        return jsonify({'error': f'Hata oluştu (get_students): {str(e)}', 'traceback': tb}), 500
 
 
 @app.errorhandler(403)
