@@ -110,6 +110,13 @@ def update_instructor(instructor_id):
     return instructors.update(instructor_data)
 
 
+@app.route("/delete_instructor/<instructor_id>", methods=["DELETE"])
+@jwt_required()
+def delete_instructor(instructor_id):
+    instructors = Instructors()
+    return instructors.delete(instructor_id)
+
+
 @app.route('/get_schedule', methods=['POST'])
 @jwt_required()
 def get_schedule():
@@ -151,6 +158,7 @@ def get_student():
         tb = traceback.format_exc()
         return jsonify({'error': f'Hata oluştu (get_students): {str(e)}', 'traceback': tb}), 500
 
+
 @app.route("/create_student", methods=["POST"])
 @jwt_required()
 def create_student():
@@ -169,6 +177,22 @@ def create_student():
             return jsonify({"error": "create_student() Öğrenci bilgileri eksik"})
     except Exception as e:
         return jsonify({'error': 'create_student() Öğrenci Oluşturulamadı', 'details': str(e)}), 404
+
+
+@app.route("/update_student/<student_id>", methods=['PUT'])
+@jwt_required()
+def update_student(student_id):
+    student_data = request.get_json()
+    student_data['id'] = student_id
+    students = Students()
+    return students.update(student_data)
+
+
+@app.route("/delete_student/<student_id>", methods=["DELETE"])
+@jwt_required()
+def delete_student(student_id):
+    students = Students()
+    return students.delete(student_id)
 
 
 @app.errorhandler(403)

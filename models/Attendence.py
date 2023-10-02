@@ -283,5 +283,9 @@ class Students:
             return jsonify({'error': '(Students.get_by_card_id) Öğrenci bulunamadı'}), 404
         return std
 
-    def delete(self, std_id: int):
-        pass
+    def delete(self, student_id):
+        db.connect()
+        db.cursor.execute(f"DELETE FROM {self.table_name} WHERE id=?", (student_id,))
+        db.connection.commit()
+        db.disconnect()
+        return jsonify({'message': '(Students.delete) Öğrenci silindi'}), 200
