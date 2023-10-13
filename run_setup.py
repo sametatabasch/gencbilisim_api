@@ -48,6 +48,7 @@ def create_tables():
             last_name TEXT,
             student_id TEXT,
             card_id TEXT,
+            lessons TEXT,
             UNIQUE(student_id),
             UNIQUE(card_id)
     );
@@ -67,10 +68,20 @@ def create_tables():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
                 code TEXT,
-                attendance TEXT,
                 UNIQUE(code)
             );
             ''')
+    cursor.execute('''
+                CREATE TABLE IF NOT EXISTS attendence(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    key TEXT,
+                    date TEXT,
+                    student_id TEXT,
+                    student_card_id TEXT,
+                    lesson TEXT,
+                    UNIQUE(key)
+                );
+                ''')
     conn.commit()
     conn.close()
     print("Veri tabanı tabloları oluşturuldu")
@@ -96,13 +107,13 @@ def insert_initial_data():
         conn = sqlite3.connect(ATTENDANCE_DATABASE_PATH)
         cursor = conn.cursor()
         cursor.executemany('''
-                INSERT OR IGNORE INTO students (name, last_name, student_id, card_id)
-                VALUES (?, ?, ?, ?)
+                INSERT OR IGNORE INTO students (name, last_name, student_id, card_id, lessons)
+                VALUES (?, ?, ?, ?, ?)
             ''', [
-            ('Samet', 'ATABAŞ', '090606043', '93bdd50b'),
-            ('Kart', ' Bir', '090606044', '3413fc51'),
-            ('Kart', ' İki', '090606045', '2aca190b'),
-            ('Diş', ' KTÜ', '090606046', 'd226d935'),
+            ('Samet', 'ATABAŞ', '090606043', '93bdd50b', json.dumps(["BILP-113","BILP-114"])),
+            ('Kart', ' Bir', '090606044', '3413fc51', json.dumps(["BILP-113","BILP-114"])),
+            ('Kart', ' İki', '090606045', '2aca190b', json.dumps(["GZT-105","BILP-114"])),
+            ('Diş', ' KTÜ', '090606046', 'd226d935', json.dumps(["BILP-3","BILP-2"])),
         ])
 
         cursor.execute('''
@@ -139,39 +150,9 @@ def insert_initial_data():
             INSERT OR IGNORE INTO lessons (name, code, attendance)
             VALUES (?, ?, ?)
             ''', [
-            ('Mathematics', 'MATH101', json.dumps(
-                {
-                    1: [
-                        {"card_id": "93bdd50b", "student_id": "090606043"},
-                        {"card_id": "3413fc51", "student_id": "090606044"}
-                    ],
-                    2: [
-                        {"card_id": "93bdd50b", "student_id": "090606043"}
-                    ]
-                }
-            )),
-            ('Physics', 'PHYS201', json.dumps(
-                {
-                    1: [
-                        {"card_id": "93bdd50b", "student_id": "090606043"},
-                        {"card_id": "3413fc51", "student_id": "090606044"}
-                    ],
-                    2: [
-                        {"card_id": "93bdd50b", "student_id": "090606043"}
-                    ]
-                }
-            )),
-            ('Chemistry', 'CHEM301', json.dumps(
-                {
-                    1: [
-                        {"card_id": "93bdd50b", "student_id": "090606043"},
-                        {"card_id": "3413fc51", "student_id": "090606044"}
-                    ],
-                    2: [
-                        {"card_id": "93bdd50b", "student_id": "090606043"}
-                    ]
-                }
-            ))
+            ('Mathematics', 'MATH101'),
+            ('Physics', 'PHYS201'),
+            ('Chemistry', 'CHEM301')
         ])
         conn.commit()
         conn.close()

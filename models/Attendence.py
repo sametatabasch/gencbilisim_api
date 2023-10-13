@@ -154,7 +154,7 @@ class Instructors:
 
 class Student:
     table_name = "students"
-    id = name = last_name = student_id = card_id = None
+    id = name = last_name = student_id = card_id = lessons = None
 
     def __init__(self, student_id: Optional[int] = None):
         if student_id is not None:
@@ -171,6 +171,7 @@ class Student:
                 self.last_name = student.last_name
                 self.card_id = student.card_id
                 self.student_id = student.student_id
+                self.lessons = student.lessons
                 return True
         return False
 
@@ -179,7 +180,7 @@ class Student:
         if not data or not isinstance(data, dict):
             return jsonify({"error": "(Student.fill_by_data) Hatalı veri"}), 500
 
-        required_keys = ['name', 'last_name', 'card_id', 'student_id']
+        required_keys = ['name', 'last_name', 'card_id', 'student_id', 'lessons']
         if not all(key in data for key in required_keys):
             return jsonify({"error": "(Student.fill_by_data) Eksik veri"}), 500
 
@@ -188,6 +189,7 @@ class Student:
         self.last_name = data.get('last_name')
         self.card_id = data.get('card_id')
         self.student_id = data.get('student_id')
+        self.lessons = data.get('lessons')
         return True
 
     def serialize(self):
@@ -197,6 +199,7 @@ class Student:
             "last_name": self.last_name,
             "card_id": self.card_id,
             "student_id": self.student_id,
+            "lessons": self.lessons
         }
 
 
