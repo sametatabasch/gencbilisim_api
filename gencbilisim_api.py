@@ -8,7 +8,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from models.Database import Database
 from models.Users import Users
-from models.Attendence import Instructors, Instructor, Students, Student
+from models.Attendance import Instructors, Instructor, Students, Student
 import traceback
 
 app = Flask(__name__)
@@ -79,6 +79,17 @@ def change_relay_status():
     except Exception as e:
         db.disconnect()
         return e
+
+
+@app.route("/take_attendance", methods=['POST'])
+@jwt_required()
+def take_attendance():
+    """ öğrenci bilgilerini ve ders bilgilerini al
+
+        dersi alıyorsa yoklama anahtarını oluştur
+        veri tabanına kaydet key hatası verirse zaten kayıt olmuş diye uyarı dön
+        veri kaydedildi mesajı dön
+    """
 
 
 @app.route("/create_instructor", methods=["POST"])
@@ -205,7 +216,7 @@ def forbidden(e):
 
 
 @app.errorhandler(404)
-def forbidden(e):
+def notfound(e):
     return jsonify({
         "message": "Endpoint Not Found",
         "error": str(e),

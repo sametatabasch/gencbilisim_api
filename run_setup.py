@@ -72,7 +72,7 @@ def create_tables():
             );
             ''')
     cursor.execute('''
-                CREATE TABLE IF NOT EXISTS attendence(
+                CREATE TABLE IF NOT EXISTS attendance(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     key TEXT,
                     date TEXT,
