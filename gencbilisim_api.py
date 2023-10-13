@@ -8,7 +8,11 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from models.Database import Database
 from models.Users import Users
-from models.Attendance import Instructors, Instructor, Students, Student
+from models.Lesson import Lesson
+from models.Instructor import Instructors, Instructor
+from models.Student import Students, Student
+from models.Attendance import Attendance, Attendances
+from datetime import datetime
 import traceback
 
 app = Flask(__name__)
@@ -84,12 +88,37 @@ def change_relay_status():
 @app.route("/take_attendance", methods=['POST'])
 @jwt_required()
 def take_attendance():
-    """ öğrenci bilgilerini ve ders bilgilerini al
+    student = Student(request.json.get("student_id"))
+    lesson = Lesson(request.json.get("lesson_code"))
+    if not lesson:
+        return jsonify({"error": "take_attendance() Ders bilgileri alınamadı"})
 
-        dersi alıyorsa yoklama anahtarını oluştur
-        veri tabanına kaydet key hatası verirse zaten kayıt olmuş diye uyarı dön
-        veri kaydedildi mesajı dön
-    """
+    attendance_date = datetime.now()
+    lesson_start_hour = request.json.get("start_hour")
+
+    attendance_key_data = [
+        student.student_number,
+        student.card_id,
+        lesson.code,
+        attendance_date.month,
+        attendance_date.day,
+        lesson_start_hour,
+        lesson.class_hours,
+    ]
+    attendance_key_data = list(map(str, attendance_key_data))
+    attendance_key = "|".join(attendance_key_data)
+
+    attendance = Attendance()
+    attendance.fill_by_data({
+        "key": attendance_key,
+        "date": attendance_date.strftime("%d.%m.%Y %H:%M:%S"),
+        "student_number": student.student_number,
+        "lesson_date": attendance_date.strftime("%d.%m.%Y"),
+        "lesson_code": lesson.code
+    })
+
+    attendances = Attendances()
+    return attendances.create(attendance)
 
 
 @app.route("/create_instructor", methods=["POST"])
