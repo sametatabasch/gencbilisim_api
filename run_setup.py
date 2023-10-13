@@ -68,6 +68,7 @@ def create_tables():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
                 code TEXT,
+                class_hours TEXT,
                 UNIQUE(code)
             );
             ''')
@@ -110,10 +111,10 @@ def insert_initial_data():
                 INSERT OR IGNORE INTO students (name, last_name, student_number, card_id, lessons)
                 VALUES (?, ?, ?, ?, ?)
             ''', [
-            ('Samet', 'ATABAŞ', '090606043', '93bdd50b', json.dumps(["BILP-113","BILP-114"])),
-            ('Kart', ' Bir', '090606044', '3413fc51', json.dumps(["BILP-113","BILP-114"])),
-            ('Kart', ' İki', '090606045', '2aca190b', json.dumps(["GZT-105","BILP-114"])),
-            ('Diş', ' KTÜ', '090606046', 'd226d935', json.dumps(["BILP-3","BILP-2"])),
+            ('Samet', 'ATABAŞ', '090606043', '93bdd50b', json.dumps(["BILP-113", "BILP-114"])),
+            ('Kart', ' Bir', '090606044', '3413fc51', json.dumps(["BILP-113", "BILP-114"])),
+            ('Kart', ' İki', '090606045', '2aca190b', json.dumps(["GZT-105", "BILP-114"])),
+            ('Diş', ' KTÜ', '090606046', 'd226d935', json.dumps(["BILP-3", "BILP-2"])),
         ])
 
         cursor.execute('''
@@ -147,12 +148,12 @@ def insert_initial_data():
                        )
 
         cursor.executemany('''
-            INSERT OR IGNORE INTO lessons (name, code, attendance)
+            INSERT OR IGNORE INTO lessons (name, code, class_hours)
             VALUES (?, ?, ?)
             ''', [
-            ('Mathematics', 'MATH101'),
-            ('Physics', 'PHYS201'),
-            ('Chemistry', 'CHEM301')
+            ('Bilgisayar Donanımı', 'BILP-113', 4),
+            ('Grafik ve Animasyon', 'BILP-107', 4),
+            ('Sunucu İşletim Sistemi', 'BILP-114', 2)
         ])
         conn.commit()
         conn.close()
