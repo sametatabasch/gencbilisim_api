@@ -78,8 +78,8 @@ def create_tables():
                     key TEXT,
                     date TEXT,
                     student_number TEXT,
-                    student_card_id TEXT,
-                    lesson TEXT,
+                    lesson_date TEXT,
+                    lesson_code TEXT,
                     UNIQUE(key)
                 );
                 ''')

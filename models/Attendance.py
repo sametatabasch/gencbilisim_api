@@ -13,7 +13,7 @@ db = Database(os.environ.get('ATTENDANCE_DATABASE_PATH'))
 
 
 class Attendance:
-    id = key = date = student_number = student_card_id = lesson_code = ""
+    id = key = date = student_number = lesson_date = lesson_code = ""
 
     def __init__(self, attendance_id: Optional[int] = None):
         if attendance_id is not None:
@@ -29,7 +29,7 @@ class Attendance:
                 self.key = attendance.key
                 self.date = attendance.date
                 self.student_number = attendance.student_number
-                self.student_card_id = attendance.student_card_id
+                self.lesson_date = attendance.lesson_date
                 self.lesson_code = attendance.lesson_code
                 return True
         return False
@@ -39,7 +39,7 @@ class Attendance:
         if not data or not isinstance(data, dict):
             return jsonify({"error": "(Attendance.fill_by_data) Hatalı veri"}), 500
 
-        required_keys = ['key', 'date', 'student_number', 'student_card_id', 'lesson_code']
+        required_keys = ['key', 'date', 'student_number', 'lesson_date', 'lesson_code']
         if not all(key in data for key in required_keys):
             return jsonify({"error": "(Attendance.fill_by_data) Eksik veri"}), 500
 
@@ -47,7 +47,7 @@ class Attendance:
         self.key = data.get('key')
         self.date = data.get('date')
         self.student_number = data.get('student_number')
-        self.student_card_id = data.get('student_card_id')
+        self.lesson_date = data.get('lesson_date')
         self.lesson_code = data.get('lesson_code')
         return True
 
@@ -56,7 +56,7 @@ class Attendance:
             "id": self.id,
             "key": self.key,
             "date": self.date,
-            "student_card_id": self.student_card_id,
+            "lesson_date": self.lesson_date,
             "student_number": self.student_number,
             "lesson_code": self.lesson_code
         }
@@ -76,8 +76,8 @@ class Attendances:
 
         try:
             db.cursor.execute(
-                f"INSERT INTO {self.table_name} (key, date, student_number, student_card_id, lesson_code) VALUES (?, ?, ?, ?, ?)",
-                (attendance.key, attendance.date, attendance.student_number, attendance.student_card_id,
+                f"INSERT INTO {self.table_name} (key, date, student_number, lesson_date, lesson_code) VALUES (?, ?, ?, ?, ?)",
+                (attendance.key, attendance.date, attendance.student_number, attendance.lesson_date,
                  attendance.lesson_code)
             )
             db.connection.commit()
