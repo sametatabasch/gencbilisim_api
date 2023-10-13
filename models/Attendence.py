@@ -154,7 +154,7 @@ class Instructors:
 
 class Student:
     table_name = "students"
-    id = name = last_name = student_id = card_id = lessons = None
+    id = name = last_name = student_number = card_id = lessons = None
 
     def __init__(self, student_id: Optional[int] = None):
         if student_id is not None:
@@ -170,7 +170,7 @@ class Student:
                 self.name = student.name
                 self.last_name = student.last_name
                 self.card_id = student.card_id
-                self.student_id = student.student_id
+                self.student_number = student.student_number
                 self.lessons = student.lessons
                 return True
         return False
@@ -180,7 +180,7 @@ class Student:
         if not data or not isinstance(data, dict):
             return jsonify({"error": "(Student.fill_by_data) Hatalı veri"}), 500
 
-        required_keys = ['name', 'last_name', 'card_id', 'student_id', 'lessons']
+        required_keys = ['name', 'last_name', 'card_id', 'student_number', 'lessons']
         if not all(key in data for key in required_keys):
             return jsonify({"error": "(Student.fill_by_data) Eksik veri"}), 500
 
@@ -188,7 +188,7 @@ class Student:
         self.name = data.get('name')
         self.last_name = data.get('last_name')
         self.card_id = data.get('card_id')
-        self.student_id = data.get('student_id')
+        self.student_number = data.get('student_number')
         self.lessons = data.get('lessons')
         return True
 
@@ -198,7 +198,7 @@ class Student:
             "name": self.name,
             "last_name": self.last_name,
             "card_id": self.card_id,
-            "student_id": self.student_id,
+            "student_number": self.student_number,
             "lessons": self.lessons
         }
 
@@ -217,8 +217,8 @@ class Students:
 
         try:
             db.cursor.execute(
-                f"INSERT INTO {self.table_name} (name, last_name, card_id, student_id) VALUES (?, ?, ?, ?)",
-                (student.name, student.last_name, student.card_id, student.student_id)
+                f"INSERT INTO {self.table_name} (name, last_name, card_id, student_number) VALUES (?, ?, ?, ?)",
+                (student.name, student.last_name, student.card_id, student.student_number)
             )
             db.connection.commit()
             student.id = db.cursor.lastrowid

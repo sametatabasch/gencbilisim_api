@@ -46,10 +46,10 @@ def create_tables():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             last_name TEXT,
-            student_id TEXT,
+            student_number TEXT,
             card_id TEXT,
             lessons TEXT,
-            UNIQUE(student_id),
+            UNIQUE(student_number),
             UNIQUE(card_id)
     );
     ''')
@@ -76,7 +76,7 @@ def create_tables():
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     key TEXT,
                     date TEXT,
-                    student_id TEXT,
+                    student_number TEXT,
                     student_card_id TEXT,
                     lesson TEXT,
                     UNIQUE(key)
@@ -107,7 +107,7 @@ def insert_initial_data():
         conn = sqlite3.connect(ATTENDANCE_DATABASE_PATH)
         cursor = conn.cursor()
         cursor.executemany('''
-                INSERT OR IGNORE INTO students (name, last_name, student_id, card_id, lessons)
+                INSERT OR IGNORE INTO students (name, last_name, student_number, card_id, lessons)
                 VALUES (?, ?, ?, ?, ?)
             ''', [
             ('Samet', 'ATABAŞ', '090606043', '93bdd50b', json.dumps(["BILP-113","BILP-114"])),
