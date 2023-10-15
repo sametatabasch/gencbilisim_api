@@ -117,7 +117,30 @@ def insert_initial_data():
             last_name = student.get("last_name", "")
             student_number = student.get("student_number", "")
             card_id = student.get("card_id", "")
-            lessons = json.dumps(student.get("lessons"))
+            lessons = json.dumps([
+                "BILP-113",
+                "BILP-107.1",
+                "BILP-107.2",
+                "BILP-109",
+                "BILP-114.1",
+                "BILP-114.2",
+                "BILP-105",
+                "BILP-201",
+                "BILP-217",
+                "BILP-213",
+                "BILP-215",
+                "BILP-207",
+                "BILP-216",
+                "BILP-213",
+                "BILP-226",
+                "BILP-209",
+                "BILP-116",
+                "BILP-221",
+                "BILP-108",
+                "BILP-106",
+                "BILP-219",
+                "BILP-110"
+            ])
 
             cursor.execute(
                 "INSERT OR IGNORE INTO students (name, last_name, student_number, card_id, lessons) VALUES (?, ?, ?, ?, ?)",
