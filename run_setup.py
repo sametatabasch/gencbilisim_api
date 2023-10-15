@@ -107,15 +107,22 @@ def insert_initial_data():
 
         conn = sqlite3.connect(ATTENDANCE_DATABASE_PATH)
         cursor = conn.cursor()
-        cursor.executemany('''
-                INSERT OR IGNORE INTO students (name, last_name, student_number, card_id, lessons)
-                VALUES (?, ?, ?, ?, ?)
-            ''', [
-            ('Samet', 'ATABAŞ', '090606043', '93bdd50b', json.dumps(["BILP-113", "BILP-114"])),
-            ('Kart', ' Bir', '090606044', '3413fc51', json.dumps(["BILP-113", "BILP-114"])),
-            ('Kart', ' İki', '090606045', '2aca190b', json.dumps(["GZT-105", "BILP-114"])),
-            ('Diş', ' KTÜ', '090606046', 'd226d935', json.dumps(["BILP-3", "BILP-2"])),
-        ])
+        # JSON dosyasından verileri okuyun
+        with open('new_students_data.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+
+        # Verileri tabloya ekleyin
+        for student in data["students"]:
+            name = student.get("name", "")
+            last_name = student.get("last_name", "")
+            student_number = student.get("student_number", "")
+            card_id = student.get("card_id", "")
+            lessons = json.dumps(student.get("lessons"))
+
+            cursor.execute(
+                "INSERT OR IGNORE INTO students (name, last_name, student_number, card_id, lessons) VALUES (?, ?, ?, ?, ?)",
+                (name, last_name, student_number, card_id, lessons))
+
 
         cursor.execute('''
             INSERT OR IGNORE INTO instructors (name, last_name, card_id, schedule)
