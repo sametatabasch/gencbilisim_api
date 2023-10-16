@@ -118,28 +118,9 @@ def insert_initial_data():
             student_number = student.get("student_number", "")
             card_id = student.get("card_id", "")
             lessons = json.dumps([
-                "BILP-113",
-                "BILP-107.1",
-                "BILP-107.2",
-                "BILP-109",
-                "BILP-114.1",
-                "BILP-114.2",
-                "BILP-105",
-                "BILP-201",
-                "BILP-217",
-                "BILP-213",
-                "BILP-215",
-                "BILP-207",
-                "BILP-216",
-                "BILP-213",
-                "BILP-226",
-                "BILP-209",
-                "BILP-116",
-                "BILP-221",
-                "BILP-108",
-                "BILP-106",
-                "BILP-219",
-                "BILP-110"
+                "BILP-113", "BILP-107.1", "BILP-107.2", "BILP-109", "BILP-114.1", "BILP-114.2", "BILP-105", "BILP-201",
+                "BILP-217", "BILP-213", "BILP-215", "BILP-207", "BILP-216", "BILP-213", "BILP-226", "BILP-209",
+                "BILP-116", "BILP-221", "BILP-108", "BILP-106", "BILP-219", "BILP-110"
             ])
 
             cursor.execute(
@@ -152,28 +133,23 @@ def insert_initial_data():
             VALUES (?, ?, ?, ?)
             ''', ("Samet", "ATABAŞ", "d56ef659",
                   json.dumps({
-                      0: {
-                          "BILP-113": [[10, 0], [15, 0]],
-                          "BILP-114": [[15, 0], [17, 0]]
-
-                      }, 1: {
-                          "BILP-2": [[12, 0], [20, 29]]
-                      }, 2: {
-                          "BILP-3": [[12, 0], [17, 0]]
-                      }, 3: {
-                          "GZT-105": [[9, 0], [16, 0]]
-
-                      }, 4: {
-                          "BILP-201": [[8, 0], [10, 00]],
-                          "BILP-207": [[10, 0], [12, 00]],
-                          "BILP-107": [[13, 0], [17, 00]],
+                      "0": {
+                          "BILP-113": [[8, 0], [10, 0]],
+                          "BILP-114.1": [[10, 0], [12, 0]],
+                          "BILP-114.2": [[15, 0], [17, 0]]
                       },
-                      5: {
-
+                      "1": {},
+                      "2": {
+                          "BILP-107.1": [[8, 0], [10, 0]],
+                          "BILP-107.2": [[10, 0], [12, 0]]
                       },
-                      6: {
-
-                      }})
+                      "3": {
+                          "HİT-105": [[9, 0], [16, 0]]
+                      },
+                      "4": {},
+                      "5": {},
+                      "6": {}
+                  })
                   )
                        )
 
