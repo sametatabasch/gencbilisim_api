@@ -145,6 +145,29 @@ class Students:
             return jsonify({'error': '(Students.get_by_card_id) Öğrenci bulunamadı'}), 404
         return std
 
+    def get_by_any(self, field: dict):
+        print(field)
+        print(type(field))
+        print(len(field))
+        if not isinstance(field, dict) or len(field) != 1:
+            return jsonify({'error': '(Students.get_by_any) Hatalı veri'}), 400
+        field_name, field_value = list(field.items())[0]
+
+        db.connect()
+        db.cursor.execute(f"SELECT * FROM {self.table_name} WHERE {field_name}=?", (field_value,))
+        student = db.cursor.fetchone()
+
+        if student:
+            std = Student()
+            std.fill_by_data(student)
+            db.disconnect()
+            if not std:
+                return jsonify({'error': '(Students.get_student_by_any) Öğrenci Oluşturulamadı'}), 404
+        else:
+            return jsonify({'error': '(Students.get_student_by_any) Öğrenci bulunamadı'}), 404
+
+        return std
+
     def delete(self, student_id):
         db.connect()
         db.cursor.execute(f"DELETE FROM {self.table_name} WHERE id=?", (student_id,))

@@ -189,7 +189,7 @@ def get_students():
 def get_student():
     try:
         current_user = get_jwt_identity()
-        student = Students().get_by_card_id(request.json.get('card_id'))
+        student = Students().get_by_any(request.json)
         if isinstance(student, Student):
             return jsonify({"student": student.serialize()})
         else:
