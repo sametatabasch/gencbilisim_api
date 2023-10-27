@@ -1,5 +1,8 @@
 # Gencbilisim.net API
 
+## Requirement
+- mod-wsgi
+- 
 ## Installation
 - run ``` cp .env.sample .env``` and fill env variables
 - python3 -m venv venv
