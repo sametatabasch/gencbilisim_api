@@ -88,37 +88,55 @@ def change_relay_status():
 @app.route("/take_attendance", methods=['POST'])
 @jwt_required()
 def take_attendance():
-    student = Student(request.json.get("student_id"))
-    lesson = Lesson(request.json.get("lesson_code"))
-    if not lesson:
-        return jsonify({"error": "take_attendance() Ders bilgileri alınamadı"})
+    status = {}
+    students = Students()
+    student = students.get_by_any({"card_id": request.json.get("student_card_id")})
+    if not isinstance(student, Student):
+        status = {"code": 1,
+                  "message": "Öğrenci Bulunamadı"}
+    else:
+        lesson = Lesson(request.json.get("lesson_code"))
+        if not lesson:
+            status = {"code": 2,
+                      "message": "Ders bilgileri alınamadı"}
+        else:
+            if lesson.code not in student.lessons:
+                status = {"code": 3,
+                          "message": "Öğrenci dersi almıyor"}
+            else:
+                attendance_date = datetime.now()
+                lesson_start_hour = request.json.get("start_hour")
 
-    attendance_date = datetime.now()
-    lesson_start_hour = request.json.get("start_hour")
+                attendance_key_data = [
+                    student.student_number,
+                    student.card_id,
+                    lesson.code,
+                    attendance_date.month,
+                    attendance_date.day,
+                    lesson_start_hour,
+                    lesson.class_hours,
+                ]
+                attendance_key_data = list(map(str, attendance_key_data))
+                attendance_key = "|".join(attendance_key_data)
 
-    attendance_key_data = [
-        student.student_number,
-        student.card_id,
-        lesson.code,
-        attendance_date.month,
-        attendance_date.day,
-        lesson_start_hour,
-        lesson.class_hours,
-    ]
-    attendance_key_data = list(map(str, attendance_key_data))
-    attendance_key = "|".join(attendance_key_data)
+                attendance = Attendance()
+                attendance.fill_by_data({
+                    "key": attendance_key,
+                    "date": attendance_date.strftime("%d.%m.%Y %H:%M:%S"),
+                    "student_number": student.student_number,
+                    "lesson_date": attendance_date.strftime("%d.%m.%Y"),
+                    "lesson_code": lesson.code
+                })
 
-    attendance = Attendance()
-    attendance.fill_by_data({
-        "key": attendance_key,
-        "date": attendance_date.strftime("%d.%m.%Y %H:%M:%S"),
-        "student_number": student.student_number,
-        "lesson_date": attendance_date.strftime("%d.%m.%Y"),
-        "lesson_code": lesson.code
-    })
-
-    attendances = Attendances()
-    return attendances.create(attendance)
+                attendance_result = Attendances().create(attendance)
+                print(attendance_result)
+                if attendance_result.get("error", None) is None:
+                    status = {"code": 4,
+                              "attendance": attendance_result,
+                              "student": student.serialize()}
+                else:
+                    return jsonify(attendance_result), attendance_result.get("status_code")
+    return jsonify(status), 200
 
 
 @app.route("/create_instructor", methods=["POST"])
@@ -193,7 +211,7 @@ def get_student():
         if isinstance(student, Student):
             return jsonify({"student": student.serialize()})
         else:
-            return student
+            return jsonify(student), 404
     except Exception as e:
         tb = traceback.format_exc()
         return jsonify({'error': f'Hata oluştu (get_students): {str(e)}', 'traceback': tb}), 500
@@ -206,6 +224,7 @@ def create_student():
         current_user = get_jwt_identity()
 
         student_data = request.json.get("student")
+        print(student_data)
         if student_data:
             student = Student()
             if student.fill_by_data(student_data):
