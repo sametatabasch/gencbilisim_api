@@ -37,10 +37,12 @@ class Student:
     def fill_by_data(self, data: dict):
         # todo validate data
         if not data or not isinstance(data, dict):
+            # todo burada jsonify kullanma
             return jsonify({"error": "(Student.fill_by_data) Hatalı veri"}), 500
 
         required_keys = ['name', 'last_name', 'card_id', 'student_number', 'lessons']
         if not all(key in data for key in required_keys):
+            # todo burada jsonify kullanma
             return jsonify({"error": "(Student.fill_by_data) Eksik veri"}), 500
 
         self.id = data.get('id')
@@ -70,6 +72,7 @@ class Students:
 
     def create(self, student: Student):
         if not student or not isinstance(student, Student):
+            # todo burada jsonify kullanma
             return jsonify({'error': '(Students.create) Kullanıcı bilgileri yanlış'}), 500
 
         db.connect()
@@ -82,13 +85,16 @@ class Students:
             db.connection.commit()
             student.id = db.cursor.lastrowid
             db.disconnect()
+            # todo burada jsonify kullanma
             return jsonify({'message': "Öğrenci oluşturuldu", 'student': student.serialize()})
         except sqlite3.Error as e:
             db.disconnect()
+            # todo burada jsonify kullanma
             return jsonify({'error': f'(Students.create) Hata oluştu: {str(e)}'}), 500
 
     def update(self, data: dict):
         if not data or not isinstance(data, dict):
+            # todo burada jsonify kullanma
             return jsonify({'error': '(Students.update) Hatalı veri'}), 500
 
         try:
@@ -104,10 +110,12 @@ class Students:
             db.connection.commit()
             db.disconnect()
             student = Student(data.get('id'))
+            # todo burada jsonify kullanma
             return jsonify({"message": "Güncelleme başarılı", "student": student.serialize()})
         except Exception as e:
             tb = traceback.format_exc()  # Hatayı izin (traceback) olarak al
             db.disconnect()
+            # todo burada jsonify kullanma
             return jsonify({'error': f'(Students.update) Hata oluştu: {str(e)}', 'traceback': tb}), 500
 
     def get_all(self):
@@ -128,6 +136,7 @@ class Students:
         std.fill_by_data(student)
         db.disconnect()
         if not std:
+            # todo burada jsonify kullanma
             return jsonify({'error': '(Students.get_by_id) Hoca bulunamadı'}), 404
         return std
 
@@ -140,15 +149,14 @@ class Students:
             std.fill_by_data(student)
             db.disconnect()
             if not std:
+                # todo burada jsonify kullanma
                 return jsonify({'error': '(Students.get_by_card_id) Öğrenci Oluşturulamadı'}), 404
         else:
+            # todo burada jsonify kullanma
             return jsonify({'error': '(Students.get_by_card_id) Öğrenci bulunamadı'}), 404
         return std
 
     def get_by_any(self, field: dict):
-        print(field)
-        print(type(field))
-        print(len(field))
         if not isinstance(field, dict) or len(field) != 1:
             return jsonify({'error': '(Students.get_by_any) Hatalı veri'}), 400
         field_name, field_value = list(field.items())[0]
@@ -162,9 +170,9 @@ class Students:
             std.fill_by_data(student)
             db.disconnect()
             if not std:
-                return jsonify({'error': '(Students.get_student_by_any) Öğrenci Oluşturulamadı'}), 404
+                return {'error': '(Students.get_student_by_any) Öğrenci Oluşturulamadı'}
         else:
-            return jsonify({'error': '(Students.get_student_by_any) Öğrenci bulunamadı'}), 404
+            return {'error': '(Students.get_student_by_any) Öğrenci bulunamadı'}
 
         return std
 
@@ -173,4 +181,5 @@ class Students:
         db.cursor.execute(f"DELETE FROM {self.table_name} WHERE id=?", (student_id,))
         db.connection.commit()
         db.disconnect()
+        #todo burada jsonify kullanma
         return jsonify({'message': '(Students.delete) Öğrenci silindi'}), 200
