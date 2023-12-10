@@ -12,7 +12,7 @@ app_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, app_dir)
 
 # Sanal ortamı etkinleştirin
-site_packages = app_dir + '/venv/lib/python3.8/site-packages'
+site_packages = app_dir + '/venv/lib/python3.10/site-packages'
 sys.path.insert(1, site_packages)
 import site
 
