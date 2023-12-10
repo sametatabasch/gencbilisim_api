@@ -37,10 +37,12 @@ class Attendance:
     def fill_by_data(self, data: dict):
         # todo validate data
         if not data or not isinstance(data, dict):
+            # todo burada jsonify kullanma
             return jsonify({"error": "(Attendance.fill_by_data) Hatalı veri"}), 500
 
         required_keys = ['key', 'date', 'student_number', 'lesson_date', 'lesson_code']
         if not all(key in data for key in required_keys):
+            # todo burada jsonify kullanma
             return jsonify({"error": "(Attendance.fill_by_data) Eksik veri"}), 500
 
         self.id = data.get('id')
@@ -70,7 +72,7 @@ class Attendances:
 
     def create(self, attendance: Attendance):
         if not attendance or not isinstance(attendance, Attendance):
-            return jsonify({'error': '(Attendances.create) Yoklama bilgileri yanlış'}), 500
+            return {'status_code': 500, 'error': '(Attendances.create) Yoklama bilgileri yanlış'}
 
         db.connect()
 
@@ -83,15 +85,17 @@ class Attendances:
             db.connection.commit()
             attendance.id = db.cursor.lastrowid
             db.disconnect()
-            return jsonify({'message': "Yoklama oluşturuldu", 'attendance': attendance.serialize()})
+            return {'status_code': 200, 'message': "Yoklama oluşturuldu", 'attendance': attendance.serialize()}
         except sqlite3.IntegrityError as e:
-            return jsonify({'error': f'(Attendances.create) Zaten yoklama alınmış: {str(e)}'}), 429
+            db.disconnect()
+            return {'status_code': 429, 'error': f'(Attendances.create) Zaten yoklama alınmış: {str(e)}'}
         except sqlite3.Error as e:
             db.disconnect()
-            return jsonify({'error': f'(Attendances.create) Hata oluştu: {str(e)}'}), 500
+            return {'status_code': 500, 'error': f'(Attendances.create) Hata oluştu: {str(e)}'}
 
     def update(self, data: dict):
         if not data or not isinstance(data, dict):
+            # todo burada jsonify kullanma
             return jsonify({'error': '(Attendances.update) Hatalı veri'}), 500
 
         try:
@@ -107,10 +111,12 @@ class Attendances:
             db.connection.commit()
             db.disconnect()
             attendance = Attendance(data.get('id'))
+            # todo burada jsonify kullanma
             return jsonify({"message": "Güncelleme başarılı", "attendance": attendance.serialize()})
         except Exception as e:
             tb = traceback.format_exc()  # Hatayı izin (traceback) olarak al
             db.disconnect()
+            # todo burada jsonify kullanma
             return jsonify({'error': f'(Attendances.update) Hata oluştu: {str(e)}', 'traceback': tb}), 500
 
     def get_all(self):
@@ -131,6 +137,7 @@ class Attendances:
         attendance.fill_by_data(attendance_data)
         db.disconnect()
         if not attendance:
+            # todo burada jsonify kullanma
             return jsonify({'error': '(Attendances.get_by_id) Yoklama bulunamadı'}), 404
         return attendance
 
@@ -139,4 +146,5 @@ class Attendances:
         db.cursor.execute(f"DELETE FROM {self.table_name} WHERE id=?", (attendance_id,))
         db.connection.commit()
         db.disconnect()
+        # todo burada jsonify kullanma
         return jsonify({'message': '(Attendances.delete) Yoklama silindi'}), 200
