@@ -1,5 +1,5 @@
 import sqlite3
-
+import json
 from dotenv import load_dotenv
 from .Database import Database
 from flask import jsonify
@@ -79,8 +79,8 @@ class Students:
 
         try:
             db.cursor.execute(
-                f"INSERT INTO {self.table_name} (name, last_name, card_id, student_number) VALUES (?, ?, ?, ?)",
-                (student.name, student.last_name, student.card_id, student.student_number)
+                f"INSERT INTO {self.table_name} (name, last_name, card_id, student_number,lessons) VALUES (?, ?, ?, ?,?)",
+                (student.name, student.last_name, student.card_id, student.student_number, json.dumps(student.lessons))
             )
             db.connection.commit()
             student.id = db.cursor.lastrowid
