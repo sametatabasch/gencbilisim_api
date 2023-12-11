@@ -90,7 +90,15 @@ def change_relay_status():
 def take_attendance():
     status = {}
     students = Students()
-    student = students.get_by_any({"card_id": request.json.get("student_card_id")})
+    card_id = request.json.get("student_card_id", None)
+    number = request.json.get("student_number", None)
+    if card_id is not None:
+        student = students.get_by_any({"card_id": card_id})
+    elif number is not None:
+        student = students.get_by_any({"student_number": number})
+    else:
+        return jsonify({'error': '(take_attendance) Öğrenci bilgileri hatalı'}), 500
+
     if not isinstance(student, Student):
         status = {"code": 1,
                   "message": "Öğrenci Bulunamadı"}
