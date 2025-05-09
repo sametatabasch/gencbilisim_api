@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: gencbilisim_api
+Version: 1.0.0
+Home-page: https://github.com/sametatabasch/gencbilisim-api
+Author: sametatabasch
+Author-email: sametatabasch@gmail.com
+License: MIT
+Requires-Dist: Flask
+Requires-Dist: flask-cors
+Requires-Dist: python-dotenv
+Requires-Dist: Werkzeug
+Requires-Dist: flask_jwt_extended
+Dynamic: author
+Dynamic: author-email
+Dynamic: home-page
+Dynamic: license
+Dynamic: requires-dist

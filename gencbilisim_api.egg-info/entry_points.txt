@@ -1,0 +1,2 @@
+[console_scripts]
+run-setup = run_setup:main

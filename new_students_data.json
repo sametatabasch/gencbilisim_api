@@ -1,0 +1,445 @@
+{
+    "students": [
+        {
+            "card_id": "93bdd50b",
+            "id": 1,
+            "last_name": "ATABAŞ",
+            "name": "Samet",
+            "student_number": "090606043"
+        },
+        {
+            "card_id": "3413fc51",
+            "id": 2,
+            "last_name": " Bir",
+            "name": "Kart",
+            "student_number": "090606044"
+        },
+        {
+            "card_id": "2aca190b",
+            "id": 3,
+            "last_name": " İki",
+            "name": "Kart",
+            "student_number": "090606045"
+        },
+        {
+            "card_id": "d226d935",
+            "id": 4,
+            "last_name": " KTU",
+            "name": "Diş",
+            "student_number": "090606046"
+        },
+        {
+            "card_id": "2dda69bc",
+            "id": 5,
+            "last_name": "YILDIRIM",
+            "name": "Buse",
+            "student_number": "231314001"
+        },
+        {
+            "card_id": "9dc56bbc",
+            "id": 6,
+            "last_name": "ÖZDEMİR",
+            "name": "CİHAT",
+            "student_number": "231314002"
+        },
+        {
+            "card_id": "cd7bb7bc",
+            "id": 7,
+            "last_name": "YILDIZ",
+            "name": "Fati̇h",
+            "student_number": "231314003"
+        },
+        {
+            "card_id": "dd6db7bc",
+            "id": 8,
+            "last_name": "KASAP",
+            "name": "Özgenur",
+            "student_number": "231314004"
+        },
+        {
+            "card_id": "8d6db9bc",
+            "id": 9,
+            "last_name": "ŞAHİN",
+            "name": "Veli̇",
+            "student_number": "231314005"
+        },
+        {
+            "card_id": "2dc275bc",
+            "id": 10,
+            "last_name": "KANBER",
+            "name": "Sali̇h",
+            "student_number": "231314006"
+        },
+        {
+            "card_id": "bd736fbc",
+            "id": 11,
+            "last_name": "ŞAHİN",
+            "name": "Umut",
+            "student_number": "231314007"
+        },
+        {
+            "card_id": "8d7a75bc",
+            "id": 12,
+            "last_name": "KURUÇELİK",
+            "name": "Zühre",
+            "student_number": "231314008"
+        },
+        {
+            "card_id": "ddbfbabc",
+            "id": 13,
+            "last_name": "POLAT",
+            "name": "Eda",
+            "student_number": "231314010"
+        },
+        {
+            "card_id": "dd9bb8bc",
+            "id": 14,
+            "last_name": "ALKAN",
+            "name": "Mustafa si̇nan",
+            "student_number": "231314011"
+        },
+        {
+            "card_id": "cdc469bc",
+            "id": 15,
+            "last_name": "TEK",
+            "name": "Mustafa",
+            "student_number": "231314012"
+        },
+        {
+            "card_id": "ed0f69bc",
+            "id": 16,
+            "last_name": "SEPETCİ",
+            "name": "Gi̇zem",
+            "student_number": "231314013"
+        },
+        {
+            "card_id": "cdf869bc",
+            "id": 17,
+            "last_name": "DURSUN",
+            "name": "Mehmet mi̇rac",
+            "student_number": "231314014"
+        },
+        {
+            "card_id": "dd65b7bc",
+            "id": 18,
+            "last_name": "IŞIK",
+            "name": "Oğuzhan",
+            "student_number": "231314015"
+        },
+        {
+            "card_id": "ad61b7bc",
+            "id": 19,
+            "last_name": "GABLAN",
+            "name": "Enes mali̇k",
+            "student_number": "231314016"
+        },
+        {
+            "card_id": "3d9da0bc",
+            "id": 20,
+            "last_name": "ÇAVDAR",
+            "name": "Hüseyi̇n",
+            "student_number": "231314017"
+        },
+        {
+            "card_id": "7d5eb9bc",
+            "id": 21,
+            "last_name": "ÇİÇEK",
+            "name": "Feri̇de",
+            "student_number": "231314018"
+        },
+        {
+            "card_id": "7df2b7bc",
+            "id": 22,
+            "last_name": "SEVİNDİK",
+            "name": "Selvanur",
+            "student_number": "231314019"
+        },
+        {
+            "card_id": "ddf56bbc",
+            "id": 23,
+            "last_name": "FİDAN",
+            "name": "Ayşenur",
+            "student_number": "231314020"
+        },
+        {
+            "card_id": "6df9b7bc",
+            "id": 24,
+            "last_name": "AKAR",
+            "name": "Şeyhmuscan",
+            "student_number": "231314022"
+        },
+        {
+            "card_id": "5d6775bc",
+            "id": 25,
+            "last_name": "YILMAZ",
+            "name": "Hazar can",
+            "student_number": "231314023"
+        },
+        {
+            "card_id": "7d93babc",
+            "id": 26,
+            "last_name": "KÖMÜRLÜ",
+            "name": "Deni̇z busenur",
+            "student_number": "231314024"
+        },
+        {
+            "card_id": "5d8c6fbc",
+            "id": 27,
+            "last_name": "MEMİŞ",
+            "name": "Ahmet eren",
+            "student_number": "231314025"
+        },
+        {
+            "card_id": "7df5b9bc",
+            "id": 28,
+            "last_name": "ÖNER",
+            "name": "Eray",
+            "student_number": "231314026"
+        },
+        {
+            "card_id": "5d70babc",
+            "id": 29,
+            "last_name": "AYGÜN",
+            "name": "Esmanur",
+            "student_number": "231314027"
+        },
+        {
+            "card_id": "0d1c77bc",
+            "id": 30,
+            "last_name": "CORT",
+            "name": "Buse",
+            "student_number": "231314028"
+        },
+        {
+            "card_id": "3dabc5bc",
+            "id": 31,
+            "last_name": "OLUK",
+            "name": "Mehmet furkan",
+            "student_number": "231314029"
+        },
+        {
+            "card_id": "1d96bbbc",
+            "id": 32,
+            "last_name": "CELEP",
+            "name": "Sefa",
+            "student_number": "231314030"
+        },
+        {
+            "card_id": "6df87bbc",
+            "id": 33,
+            "last_name": "ATMACA",
+            "name": "Murat berkay",
+            "student_number": "231314031"
+        },
+        {
+            "card_id": "1d49c4bc",
+            "id": 34,
+            "last_name": "YAZICI",
+            "name": "Nazlican",
+            "student_number": "231314032"
+        },
+        {
+            "card_id": "eda3d9bb",
+            "id": 35,
+            "last_name": "YILMAZ",
+            "name": "Burak",
+            "student_number": "231314033"
+        },
+        {
+            "card_id": "5d96bbbc",
+            "id": 36,
+            "last_name": "UZUN",
+            "name": "Aslihan",
+            "student_number": "231314034"
+        },
+        {
+            "card_id": "ad89dabb",
+            "id": 37,
+            "last_name": "DAVUTOĞLU",
+            "name": "Muhammed emi̇n",
+            "student_number": "231314035"
+        },
+        {
+            "card_id": "cd14c1bc",
+            "id": 38,
+            "last_name": "CİNBE",
+            "name": "Sudenaz",
+            "student_number": "231314036"
+        },
+        {
+            "card_id": "5d48dabb",
+            "id": 39,
+            "last_name": "SARICI",
+            "name": "Enes",
+            "student_number": "231314037"
+        },
+        {
+            "card_id": "2dafb1bc",
+            "id": 40,
+            "last_name": "TAŞGÖZ",
+            "name": "Onur",
+            "student_number": "231314038"
+        },
+        {
+            "card_id": "6db16fbc",
+            "id": 41,
+            "last_name": "ÇALIŞKAN",
+            "name": "Olgun",
+            "student_number": "231314039"
+        },
+        {
+            "card_id": "cd2bafbc",
+            "id": 42,
+            "last_name": "AKYOL",
+            "name": "Hüseyi̇n",
+            "student_number": "231314040"
+        },
+        {
+            "card_id": "0dd8adbc",
+            "id": 43,
+            "last_name": "ÖZŞAHİN",
+            "name": "Lütfi̇",
+            "student_number": "231314041"
+        },
+        {
+            "card_id": "bd9e76bc",
+            "id": 44,
+            "last_name": "YILMAZ",
+            "name": "Berkay",
+            "student_number": "231314043"
+        },
+        {
+            "card_id": "dde9bbbc",
+            "id": 45,
+            "last_name": "ŞEKER",
+            "name": "Ni̇lsu",
+            "student_number": "231314044"
+        },
+        {
+            "card_id": "8dd3c0bc",
+            "id": 46,
+            "last_name": "POLAT",
+            "name": "Eyüphan",
+            "student_number": "231314045"
+        },
+        {
+            "card_id": "9db8b3bc",
+            "id": 47,
+            "last_name": "YER",
+            "name": "Berat",
+            "student_number": "231314046"
+        },
+        {
+            "card_id": "0d9ac1bc",
+            "id": 48,
+            "last_name": "ÇETİN",
+            "name": "Bi̇lal",
+            "student_number": "231314047"
+        },
+        {
+            "card_id": "cdf8a3bc",
+            "id": 49,
+            "last_name": "ŞİŞMAN",
+            "name": "Emre",
+            "student_number": "231314048"
+        },
+        {
+            "card_id": "8d1adabb",
+            "id": 50,
+            "last_name": "AKTAŞ",
+            "name": "Zeynep",
+            "student_number": "231314049"
+        },
+        {
+            "card_id": "6d026dbc",
+            "id": 51,
+            "last_name": "USTA",
+            "name": "Büşra",
+            "student_number": "231314050"
+        },
+        {
+            "card_id": "fd1ccfbc",
+            "id": 52,
+            "last_name": "DEHMEN",
+            "name": "Yalçin egemen",
+            "student_number": "231314051"
+        },
+        {
+            "card_id": "cd64dabb",
+            "id": 53,
+            "last_name": "ARPA",
+            "name": "Berat",
+            "student_number": "231314052"
+        },
+        {
+            "card_id": "0ddfdabb",
+            "id": 54,
+            "last_name": "KAYA",
+            "name": "Osman enes",
+            "student_number": "231314053"
+        },
+        {
+            "card_id": "4d27dabb",
+            "id": 55,
+            "last_name": "YILMAZ",
+            "name": "Murat emi̇r",
+            "student_number": "231314054"
+        },
+        {
+            "card_id": "8dfd77bc",
+            "id": 56,
+            "last_name": "YETİM",
+            "name": "Abdullah",
+            "student_number": "231314055"
+        },
+        {
+            "card_id": "fd0d02bc",
+            "id": 57,
+            "last_name": "",
+            "name": "",
+            "student_number": "231314056"
+        },
+        {
+            "card_id": "4d82dabb",
+            "id": 58,
+            "last_name": "AYDIN",
+            "name": "Çi̇sem nur",
+            "student_number": "231314057"
+        },
+        {
+            "card_id": "1daf69bc",
+            "id": 59,
+            "last_name": "GÜNEK",
+            "name": "Eslem baran",
+            "student_number": "231314058"
+        },
+        {
+            "card_id": "9df8dabb",
+            "id": 60,
+            "last_name": "KARABÖRK",
+            "name": "İlhami̇",
+            "student_number": "231314059"
+        },
+        {
+            "card_id": "2d52dbbb",
+            "id": 61,
+            "last_name": "YILMAZ",
+            "name": "Özlem",
+            "student_number": "231314060"
+        },
+        {
+            "card_id": "fdaedbbb",
+            "id": 62,
+            "last_name": "AYDİN",
+            "name": "Rahi̇me",
+            "student_number": "231314061"
+        },
+        {
+            "card_id": "6db8dabb",
+            "id": 63,
+            "last_name": "EROĞLU",
+            "name": "İrem",
+            "student_number": "231314062"
+        }
+    ]
+}
