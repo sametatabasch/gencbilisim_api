@@ -146,7 +146,11 @@ def take_attendance():
                     return jsonify(attendance_result), attendance_result.get("status_code")
     return jsonify(status), 200
 
-
+@app.route("/get_attendances", methods=['POST'])
+@jwt_required()
+def get_attendances():
+    #todo
+    pass
 @app.route("/create_instructor", methods=["POST"])
 @jwt_required()
 def create_instructor():

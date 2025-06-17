@@ -18,7 +18,7 @@
 
  ```
 WSGIDaemonProcess gencbilisim_api user=www-data group=www-data threads=5  python-path=/path/to/virtualenv/lib/pythonX.X/site-packages
- VirtualHost *:80>
+<VirtualHost *:80>
     ServerName api.yourdomain.net
     ServerAdmin admin@yourdomain.net
 
